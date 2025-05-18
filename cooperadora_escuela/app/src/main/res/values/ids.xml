@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="productImage1" type="id"/>
+    <item name="productName1" type="id"/>
+    <item name="productPrice1" type="id"/>
+    <item name="addToCart1" type="id"/>
+    <item name="productImage2" type="id"/>
+    <item name="productName2" type="id"/>
+    <item name="productPrice2" type="id"/>
+    <item name="addToCart2" type="id"/>
+    <item name="productImage3" type="id"/>
+    <item name="productName3" type="id"/>
+    <item name="productPrice3" type="id"/>
+    <item name="addToCart3" type="id"/>
+    <item name="productImage4" type="id"/>
+    <item name="productName4" type="id"/>
+    <item name="productPrice4" type="id"/>
+    <item name="addToCart4" type="id"/>
+    <item name="viewCartButton" type="id"/>
+</resources>
