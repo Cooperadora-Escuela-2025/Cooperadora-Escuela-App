@@ -8,6 +8,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cooperadora_escuela.ui.DashboardActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,53 +17,62 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Verificación de permisos (simplificada)
-        if (!PermissionManager.hasStoragePermission()) {
-            PermissionManager.checkAndRequestPermissions();
-        }
+        Button btnIrADashboard = findViewById(R.id.btnDashboard);
 
-        Button btnLogin = findViewById(R.id.btnLogin);
-        EditText etUsername = findViewById(R.id.etUsername);
-        EditText etPassword = findViewById(R.id.etPassword);
-
-        btnLogin.setOnClickListener(v -> {
-            String username = etUsername.getText().toString();
-            String password = etPassword.getText().toString();
-
-            if (username.equals("admin") && password.equals("admin")) {
-                if (PermissionManager.hasStoragePermission()) {
-                    startProductsActivity();
-                } else {
-                    showPermissionRequiredDialog();
-                }
-            } else {
-                Toast.makeText(MainActivity.this,
-                        "Usuario o contraseña incorrectos",
-                        Toast.LENGTH_SHORT).show();
-            }
+        btnIrADashboard.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+            startActivity(intent);
         });
     }
-
-    private void startProductsActivity() {
-        startActivity(new Intent(this, ProductsActivity.class));
-        finish();
-    }
-
-    private void showPermissionRequiredDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Permiso requerido")
-                .setMessage("La aplicación necesita permisos de almacenamiento para funcionar correctamente")
-                .setPositiveButton("Solicitar permisos", (dialog, which) ->
-                        PermissionManager.checkAndRequestPermissions())
-                .setNegativeButton("Cancelar", null)
-                .show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!PermissionManager.hasStoragePermission()) {
-            PermissionManager.checkAndRequestPermissions();
-        }
-    }
 }
+
+        // Verificación de permisos (simplificada)
+//        if (!PermissionManager.hasStoragePermission()) {
+//            PermissionManager.checkAndRequestPermissions();
+//        }
+
+//        Button btnLogin = findViewById(R.id.btnLogin);
+//        EditText etUsername = findViewById(R.id.etUsername);
+//        EditText etPassword = findViewById(R.id.etPassword);
+//
+//        btnLogin.setOnClickListener(v -> {
+//            String username = etUsername.getText().toString();
+//            String password = etPassword.getText().toString();
+
+//            if (username.equals("admin") && password.equals("admin")) {
+//                if (PermissionManager.hasStoragePermission()) {
+//                    startProductsActivity();
+//                } else {
+//                    showPermissionRequiredDialog();
+//                }
+//            } else {
+//                Toast.makeText(MainActivity.this,
+//                        "Usuario o contraseña incorrectos",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    private void startProductsActivity() {
+//        startActivity(new Intent(this, ProductsActivity.class));
+//        finish();
+//    }
+
+//    private void showPermissionRequiredDialog() {
+//        new AlertDialog.Builder(this)
+//                .setTitle("Permiso requerido")
+//                .setMessage("La aplicación necesita permisos de almacenamiento para funcionar correctamente")
+//                .setPositiveButton("Solicitar permisos", (dialog, which) ->
+//                        PermissionManager.checkAndRequestPermissions())
+//                .setNegativeButton("Cancelar", null)
+//                .show();
+//    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (!PermissionManager.hasStoragePermission()) {
+//            PermissionManager.checkAndRequestPermissions();
+//        }
+//    }
+//}
