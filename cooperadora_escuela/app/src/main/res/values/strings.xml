@@ -3,9 +3,14 @@
     <string name="app_name">Cooperadora Escuela</string>
 
     <!-- Login -->
-    <string name="hint_username">Usuario</string>
+    <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
     <string name="btn_login">INICIAR SESIÓN</string>
+    <string name="btn_star">INGRESAR</string>
+    <string name="btn_message">¿No tenés una cuenta? Registrate</string>
+
+    <!-- registro -->
+    <string name="hint_password2">Confirmar Contraseña</string>
 
     <!-- Productos -->
     <string name="products_title">LISTA DE PRODUCTOS</string>

@@ -3,6 +3,9 @@
     <style name="Base.Theme.Cooperadora_escuela" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Estilo para los input-->
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox</item>
+
     </style>
 
     <style name="Theme.Cooperadora_escuela" parent="Base.Theme.Cooperadora_escuela" />

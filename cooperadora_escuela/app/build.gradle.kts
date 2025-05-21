@@ -42,4 +42,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.recyclerview)
     implementation(libs.cardview)
+    implementation("androidx.core:core:1.10.1")
+    implementation ("com.google.android.material:material:1.9.0")
+
+
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cooperadora_escuela.ui.DashboardActivity;
+import com.example.cooperadora_escuela.ui.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnIrADashboard = findViewById(R.id.btnDashboard);
+        Button btnIrADashboard = findViewById(R.id.btnLogin);
 
         btnIrADashboard.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
     }
