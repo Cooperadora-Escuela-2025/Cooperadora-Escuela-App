@@ -1,4 +1,16 @@
 package com.example.cooperadora_escuela.ui;
 
-public class RegisterActivity {
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.cooperadora_escuela.R;
+
+public class RegisterActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+    }
 }

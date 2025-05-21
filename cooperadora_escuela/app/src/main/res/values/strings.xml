@@ -11,6 +11,10 @@
 
     <!-- registro -->
     <string name="hint_password2">Confirmar Contraseña</string>
+    <string name="t_register">REGISTRO</string>
+    <string name="btn_register">REGISTRARSE</string>
+    <string name="btn_message_register">Ya tenés una cuenta? Iniciá sesión</string>
+
 
     <!-- Productos -->
     <string name="products_title">LISTA DE PRODUCTOS</string>

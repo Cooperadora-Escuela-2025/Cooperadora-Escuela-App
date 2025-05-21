@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cooperadora_escuela.ui.DashboardActivity;
 import com.example.cooperadora_escuela.ui.LoginActivity;
+import com.example.cooperadora_escuela.ui.RegisterActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,12 +19,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnIrADashboard = findViewById(R.id.btnLogin);
+        Button btnIrALogin = findViewById(R.id.btnLogin);
+        Button btnIrARegister=findViewById(R.id.btnRegister);
 
-        btnIrADashboard.setOnClickListener(view -> {
+        btnIrALogin.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
+
+        btnIrARegister.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+
     }
 }
 
