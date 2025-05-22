@@ -2,6 +2,11 @@
     <!-- General -->
     <string name="app_name">Cooperadora Escuela</string>
 
+    <!--dasboard-->
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+
+
     <!-- Login -->
     <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
