@@ -2,7 +2,7 @@
     <!-- para que el formulario de logi y registro sea blanco -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#B0B0B0"/>
+
             <corners android:radius="16dp"/>
         </shape>
     </item>

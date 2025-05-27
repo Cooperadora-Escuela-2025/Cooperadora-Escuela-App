@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/rounded_gradient_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="24dp"
-    android:background="@drawable/rounded_gradient_background"
+
     android:orientation="vertical"
     android:gravity="top">
 
@@ -55,11 +61,12 @@
             app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextName"
+                android:id="@+id/etFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_first_name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- apellido -->
@@ -76,11 +83,12 @@
             app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextLastName"
+                android:id="@+id/etLastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_last_name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- email -->
@@ -97,11 +105,12 @@
             app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextEmail"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- contraseña -->
@@ -117,11 +126,12 @@
             app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- confirmar contraseña -->
@@ -138,22 +148,24 @@
             app:boxCornerRadiusBottomEnd="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPassword2"
+                android:id="@+id/etPassword2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password2"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <!-- mensaje de error -->
         <TextView
-            android:id="@+id/textError"
+            android:id="@+id/idMessage"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FF0000"
-            android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:textColor="@color/error"/>
 
         <!-- boton registro -->
         <com.google.android.material.button.MaterialButton
@@ -161,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             style="@style/GradientButtonStyle"
-            android:text="@string/btn_star"
+            android:text="@string/register"
             android:layout_marginTop="18dp"/>
 
         <!-- link a registro -->
@@ -170,9 +182,11 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:text="@string/btn_message_register"
-            android:textColor="#3F51B5"
+            android:textColor="@android:color/holo_blue_dark"
             android:layout_marginTop="24dp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

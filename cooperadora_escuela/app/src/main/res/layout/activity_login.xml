@@ -33,7 +33,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center" />
 
-    <!-- contenedor del login -->
+    <!-- contenedor del formulario -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,14 +41,14 @@
         android:padding="24dp"
         android:orientation="vertical">
 
-        <!-- email -->
+        <!-- Email -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#3F51B5"
+            app:boxStrokeColor="@color/black"
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
@@ -58,57 +58,64 @@
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_email"
-                android:inputType="textEmailAddress" />
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+               />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- contraseña -->
+        <!-- Contraseña -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#3F51B5"
+            android:textColor="@color/black"
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusBottomEnd="12dp">
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/input_stroke">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_password"
-                android:inputType="textPassword" />
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- mensaje de error -->
         <TextView
-            android:id="@+id/textError"
+            android:id="@+id/idMessage"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FF0000"
-            android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:textColor="@color/error"/>
 
-        <!-- boton login -->
+        <!-- Botón login -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/GradientButtonStyle"
-            android:text="@string/btn_star"
+            android:text="Iniciar sesión"
             android:layout_marginTop="18dp"/>
 
-        <!-- link a registro -->
+        <!-- Link a registro -->
         <TextView
-            android:id="@+id/textRegisterLink"
+            android:id="@+id/textViewRegister"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="@string/btn_message"
-            android:textColor="#3F51B5"
-            android:layout_marginTop="24dp"
+            android:text="¿No tenés cuenta? Registrate"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="25dp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
