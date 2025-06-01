@@ -18,7 +18,7 @@ import com.example.cooperadora_escuela.ui.DashboardActivity;
 import com.example.cooperadora_escuela.ui.ProfileActivity;
 import com.google.android.material.navigation.NavigationView;
 
-public class AboutUs extends AppCompatActivity {
+public class AboutUsActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navView;
@@ -56,17 +56,17 @@ public class AboutUs extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.nav_home) {
-                    Toast.makeText(AboutUs.this, "Inicio", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AboutUsActivity.this, "Inicio", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_product) {
-                    Intent intent = new Intent(AboutUs.this, ProductsActivity.class);
+                    Intent intent = new Intent(AboutUsActivity.this, ProductsActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_cuota) {
-                    Toast.makeText(AboutUs.this, "Cuota", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AboutUsActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_perfil) {
-                    Intent intent = new Intent(AboutUs.this, ProfileActivity.class);
+                    Intent intent = new Intent(AboutUsActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_logout) {
-                    Toast.makeText(AboutUs.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AboutUsActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -78,7 +78,7 @@ public class AboutUs extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AboutUs.this, DashboardActivity.class);
+                Intent intent = new Intent(AboutUsActivity.this, DashboardActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();

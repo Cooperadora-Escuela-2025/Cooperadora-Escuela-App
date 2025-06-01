@@ -10,6 +10,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.example.cooperadora_escuela.AboutUsActivity;
+import com.example.cooperadora_escuela.ContactActivity;
 import com.example.cooperadora_escuela.ProductsActivity;
 import com.example.cooperadora_escuela.R;
 import com.google.android.material.navigation.NavigationView;
@@ -73,6 +76,12 @@ public class DashboardActivity extends AppCompatActivity {
                     Toast.makeText(DashboardActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_perfil) {
                     Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.nav_contact) {
+                    Intent intent = new Intent(DashboardActivity.this, ContactActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.nav_about) {
+                    Intent intent = new Intent(DashboardActivity.this, AboutUsActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_logout) {
                     Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();

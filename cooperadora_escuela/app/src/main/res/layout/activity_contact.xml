@@ -1,54 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ContactActivity"
-    android:padding="16dp">
+    android:background="@android:color/white">
 
-    <EditText
-        android:id="@+id/etNombre"
-        android:hint="Nombre"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <!-- Contenido Principal -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/etNombre"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp" />
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/rectangular_gradient_background"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="Contacto"
+            />
 
-    <EditText
-        android:id="@+id/etMensaje"
-        android:hint="Mensaje"
-        android:inputType="textMultiLine"
-        android:minLines="4"
-        android:gravity="top"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp" />
+        <!-- Contenido Formulario de Contacto -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnEnviar"
-        android:text="Enviar"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Comunicate con nosotros"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#6c757d"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp" />
+
+                <!-- Campo Nombre -->
+                <TextView
+                    android:text="Nombre"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#6c757d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/input_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingresa tu nombre"
+                    android:inputType="textPersonName"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="#6c757d"
+                    android:padding="8dp" />
+
+                <!-- Campo Email -->
+                <TextView
+                    android:text="Email"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#6c757d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingresa tu email"
+                    android:inputType="textEmailAddress"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="#6c757d"
+                    android:padding="8dp" />
+
+                <!-- Campo Mensaje -->
+                <TextView
+                    android:text="Mensaje"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#6c757d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/input_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:hint="Escribe tu mensaje aquí"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    android:backgroundTint="#6c757d"
+                    android:padding="8dp"
+                    android:layout_marginBottom="24dp" />
+
+                <!-- Botón Enviar -->
+                <Button
+                    android:id="@+id/btn_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enviar"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="#6c757d"
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:layout_marginBottom="24dp" />
+
+                <!-- Botón Volver -->
+                <Button
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volver"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="#6c757d"
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:layout_marginBottom="24dp" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Menú lateral -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/etMensaje"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:background="@android:color/white"
+        app:menu="@menu/menu_drawer"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

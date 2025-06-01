@@ -19,7 +19,7 @@
         android:theme="@style/Theme.Cooperadora_escuela"
         tools:targetApi="31">
         <activity
-            android:name=".AboutUs"
+            android:name=".AboutUsActivity"
             android:exported="false" />
         <activity
             android:name=".ContactActivity"

@@ -22,11 +22,18 @@
         android:icon="@drawable/ic_user" />
 
     <item
-        android:id="@+id/nav_logout"
-        android:title="Cerrar sesión"
-        android:icon="@drawable/ic_logout" />
+        android:id="@+id/nav_contact"
+        android:title="Contacto"
+        android:icon="@drawable/ic_contact" />
+
     <item
         android:id="@+id/nav_about"
         android:title="Sobre Nosotros"
         android:icon="@drawable/ic_about_selector" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/ic_logout" />
+
 </menu>
