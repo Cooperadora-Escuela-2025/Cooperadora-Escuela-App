@@ -16,6 +16,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import com.example.cooperadora_escuela.models.Product;
 
 public class ProductsActivity extends AppCompatActivity {
     private List<Product> productList;

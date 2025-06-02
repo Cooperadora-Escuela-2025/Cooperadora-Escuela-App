@@ -6,9 +6,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +22,7 @@ import java.util.Map;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private final List<Product> productList;
-    private final Map<Integer, Integer> productQuantities;
+    private final Map<String, Integer> productQuantities;
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
@@ -41,15 +45,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         productList.clear();
         productQuantities.clear();
 
-        Map<Integer, Product> uniqueProducts = new HashMap<>();
+        Map<String, Product> uniqueProducts = new HashMap<>();
         for (Product product : newProducts) {
             if (product == null) continue;
 
-            int productId = product.getId();
-            productQuantities.merge(productId, 1, Integer::sum);
+            String key = product.getName();
+            productQuantities.merge(key, 1, Integer::sum);
 
-            if (!uniqueProducts.containsKey(productId)) {
-                uniqueProducts.put(productId, product);
+            if (!uniqueProducts.containsKey(key)) {
+                uniqueProducts.put(key, product);
             }
         }
 
@@ -58,10 +62,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public void addProduct(@NonNull Product product) {
-        int productId = product.getId();
-        int position = findProductPosition(productId);
+        String key = product.getName();
+        int position = findProductPosition(key);
 
-        int newCount = productQuantities.merge(productId, 1, Integer::sum);
+        int newCount = productQuantities.merge(key, 1, Integer::sum);
 
         if (position == -1) {
             productList.add(product);
@@ -72,11 +76,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public void removeProduct(@NonNull Product product) {
-        int productId = product.getId();
-        int position = findProductPosition(productId);
+        String key = product.getName();
+        int position = findProductPosition(key);
 
         if (position != -1) {
-            Integer newCount = productQuantities.compute(productId, (key, count) ->
+            Integer newCount = productQuantities.compute(key, (k, count) ->
                     (count == null || count <= 1) ? null : count - 1);
 
             if (newCount == null) {
@@ -88,10 +92,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
     }
 
-    private int findProductPosition(int productId) {
+    private int findProductPosition(String key) {
         for (int i = 0; i < productList.size(); i++) {
             Product p = productList.get(i);
-            if (p != null && p.getId() == productId) {
+            if (p != null && p.getName().equals(key)) {
                 return i;
             }
         }
@@ -110,7 +114,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         Product product = productList.get(position);
         if (product != null) {
-            Integer quantity = productQuantities.get(product.getId());
+            String key = product.getName();
+            Integer quantity = productQuantities.get(key);
             holder.bind(product, quantity != null ? quantity : 1);
 
             holder.removeButton.setOnClickListener(v -> {
@@ -154,7 +159,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             productQuantity = itemView.findViewById(R.id.productQuantity);
             removeButton = itemView.findViewById(R.id.removeButton);
 
-            // Mejora de accesibilidad
             removeButton.setContentDescription(itemView.getContext().getString(R.string.remove_item));
         }
 
@@ -168,7 +172,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             productPrice.setContentDescription(
                     itemView.getContext().getString(R.string.price_content_description, price));
 
-            productImage.setImageResource(product.getImageResource());
+            // Usar Glide para cargar imagen desde URL
+            Glide.with(itemView.getContext())
+                    .load(product.getImage())
+                    .into(productImage);
+
             productImage.setContentDescription(
                     itemView.getContext().getString(R.string.product_image_description));
 
@@ -204,7 +212,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldList.get(oldItemPosition).getId() == newList.get(newItemPosition).getId();
+            return oldList.get(oldItemPosition).getName()
+                    .equals(newList.get(newItemPosition).getName());
         }
 
         @Override
