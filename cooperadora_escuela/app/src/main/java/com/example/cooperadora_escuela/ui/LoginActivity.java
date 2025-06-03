@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
+import com.example.cooperadora_escuela.HomeActivity;
 import com.example.cooperadora_escuela.MainActivity;
 import com.example.cooperadora_escuela.R;
 import com.example.cooperadora_escuela.network.UserService;
@@ -136,8 +137,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
 
 
-                        // ir a la pantalla de perfil
-                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                        // ir a la pantalla de dashboard
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
 

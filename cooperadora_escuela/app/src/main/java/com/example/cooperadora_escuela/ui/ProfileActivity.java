@@ -111,7 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
         applyFontSizeIfNeeded();
 
         //aumenta fuente
-        SwitchCompat switchFontSize = findViewById(R.id.switch_font_size); // tenés que agregarlo en el XML
+        SwitchCompat switchFontSize = findViewById(R.id.switch_font_size); 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         switchFontSize.setChecked(prefs.getBoolean("increase_font_size", false));

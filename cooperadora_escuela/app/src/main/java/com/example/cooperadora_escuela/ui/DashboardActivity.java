@@ -40,11 +40,11 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         //boton que lleva a productos
-        Button btnIr = findViewById(R.id.btn);
-        btnIr.setOnClickListener(view -> {
-            Intent intent = new Intent(DashboardActivity.this, ProducActivity.class);
-            startActivity(intent);
-        });
+//        Button btnIr = findViewById(R.id.btn);
+//        btnIr.setOnClickListener(view -> {
+//            Intent intent = new Intent(DashboardActivity.this, ProducActivity.class);
+//            startActivity(intent);
+//        });
 
         //para el menu lateral
         // referencias

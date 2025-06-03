@@ -22,6 +22,10 @@
 
 
 
+
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.ProducActivity"
             android:exported="false" />
