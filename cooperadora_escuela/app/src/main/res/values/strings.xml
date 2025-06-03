@@ -2,10 +2,30 @@
     <!-- General -->
     <string name="app_name">Cooperadora Escuela</string>
 
+    <!--dasboard-->
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+
+
     <!-- Login -->
-    <string name="hint_username">Usuario</string>
+    <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
     <string name="btn_login">INICIAR SESIÓN</string>
+    <string name="btn_star">INGRESAR</string>
+    <string name="btn_message">¿No tenés una cuenta? Registrate</string>
+
+    <!-- registro -->
+    <string name="hint_password2">Confirmar Contraseña</string>
+    <string name="t_register">REGISTRO</string>
+    <string name="register">REGISTRARSE</string>
+    <string name="btn_message_register">Ya tenés una cuenta? Iniciá sesión</string>
+
+    <!-- perfil -->
+    <string name="hint_turno">Turno</string>
+    <string name="hint_grado">Año/Curso</string>
+    <string name="t_perfil">PERFIL</string>
+    <string name="hint_tel">Teléfono</string>
+
 
     <!-- Productos -->
     <string name="products_title">LISTA DE PRODUCTOS</string>

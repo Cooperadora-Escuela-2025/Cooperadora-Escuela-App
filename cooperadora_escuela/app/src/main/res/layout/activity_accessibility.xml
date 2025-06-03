@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/rectangular_gradient_background"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Accesibilidad"
+        app:titleTextColor="@android:color/white"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/abc_"/>
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Para facilitar la lectura, esta app incluye un botón llamado “Aumentar texto”, ubicado al final de la pantalla.
+Al presionarlo, el tamaño del texto se agranda para mejorar la visibilidad, sin necesidad de cambiar la configuración del dispositivo.
+
+Esta función está pensada para personas con dificultades visuales o que prefieren leer con letras más grandes, como parte de nuestro compromiso con la accesibilidad."
+        android:layout_margin="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_accessible_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tema accesible"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"/>
+
+<!--    <androidx.appcompat.widget.SwitchCompat-->
+<!--        android:id="@+id/switch_increase_font_size"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Aumentar tamaño de fuente"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="8dp"/>-->
+
+
+
+</LinearLayout>
