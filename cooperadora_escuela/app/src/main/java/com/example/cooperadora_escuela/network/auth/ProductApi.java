@@ -7,17 +7,17 @@ import retrofit2.http.*;
 
 public interface ProductApi {
 
-    @GET("api/products/")
+    @GET("products/")
     Call<List<Product>> getAllProducts();
 
-    @POST("api/products/")
+    @POST("products/")
     Call<Product> createProduct(@Body Product product);
 
-    // Ahora actualizamos por ID
-    @PUT("api/products/{id}/")
+    // Actualizar por ID
+    @PUT("products/{id}/")
     Call<Product> updateProductById(@Path("id") int id, @Body Product product);
 
-    // Ahora eliminamos por ID
-    @DELETE("api/products/{id}/")
+    // Eliminar por ID
+    @DELETE("products/{id}/")
     Call<Void> deleteProductById(@Path("id") int id);
 }
