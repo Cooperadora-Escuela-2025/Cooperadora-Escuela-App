@@ -3,8 +3,8 @@
     <string name="app_name">Cooperadora Escuela</string>
 
     <!--dasboard-->
-    <string name="navigation_drawer_open">Abrir menú</string>
-    <string name="navigation_drawer_close">Cerrar menú</string>
+<!--    <string name="navigation_drawer_open">Abrir menú</string>-->
+<!--    <string name="navigation_drawer_close">Cerrar menú</string>-->
 
 
     <!-- Login -->
@@ -100,9 +100,7 @@
     <string name="edit_product_desc_product2">Editar Pago Matrícula</string>
     <string name="edit_product_desc_product3">Editar Pago Mensual</string>
     <string name="edit_product_desc_product4">Editar Remera Escolar</string>
-
     <string name="view_cart_desc">Ver productos en el carrito</string>
-
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
     <string name="menu_home">Inicio</string>
