@@ -1,4 +1,5 @@
 package com.example.cooperadora_escuela.network;
+import com.example.cooperadora_escuela.Product;
 import com.example.cooperadora_escuela.models.Produ;
 import com.example.cooperadora_escuela.network.auth.LoginRequest;
 import com.example.cooperadora_escuela.network.auth.LoginResponse;
@@ -31,6 +32,9 @@ public interface UserService {
     @PUT("profile/")
     Call<ProfileResponse> updateProfile(@Header("Authorization") String token, @Body ProfileRequest request);
 
+
+
+
     @GET("/products/")
-        Call<List<Produ>> getProductos();
+    Call<List<Product>> getProducts();
 }

@@ -4,15 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cooperadora_escuela.models.Product;
 import com.google.android.material.button.MaterialButton;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class CartActivity extends AppCompatActivity implements Cart.CartListener, CartAdapter.OnItemClickListener {
+
     private CartAdapter cartAdapter;
     private TextView totalPriceTextView;
     private Cart cart;
@@ -25,23 +30,28 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
         cart = Cart.getInstance();
         cart.setListener(this);
 
+        setupRecyclerView();
+        setupButtons();
+
+        totalPriceTextView = findViewById(R.id.totalPriceTextView);
+        updateTotalPrice();
+    }
+
+    private void setupRecyclerView() {
         RecyclerView cartRecyclerView = findViewById(R.id.cartRecyclerView);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartAdapter = new CartAdapter(cart.getProducts());
         cartAdapter.setOnItemClickListener(this);
         cartRecyclerView.setAdapter(cartAdapter);
+    }
 
-        totalPriceTextView = findViewById(R.id.totalPriceTextView);
-        updateTotalPrice();
-
+    private void setupButtons() {
         MaterialButton checkoutButton = findViewById(R.id.checkoutButton);
         checkoutButton.setOnClickListener(v -> {
             if (cart.getProducts().isEmpty()) {
-                Toast.makeText(CartActivity.this,
-                        getString(R.string.empty_cart_message),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.empty_cart_message), Toast.LENGTH_SHORT).show();
             } else {
-                startActivity(new Intent(CartActivity.this, CheckoutActivity.class));
+                startActivity(new Intent(this, CheckoutActivity.class));
             }
         });
 
@@ -63,9 +73,10 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
     private void updateTotalPrice() {
         double total = cart.getTotalPrice();
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
-        totalPriceTextView.setText(getString(R.string.total_label, currencyFormat.format(total)));
-        totalPriceTextView.setContentDescription(
-                getString(R.string.total_content_description, currencyFormat.format(total)));
+        String totalFormatted = currencyFormat.format(total);
+
+        totalPriceTextView.setText(getString(R.string.total_label, totalFormatted));
+        totalPriceTextView.setContentDescription(getString(R.string.total_content_description, totalFormatted));
     }
 
     @Override

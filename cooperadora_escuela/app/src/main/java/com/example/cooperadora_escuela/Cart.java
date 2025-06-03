@@ -1,5 +1,7 @@
 package com.example.cooperadora_escuela;
 
+import com.example.cooperadora_escuela.models.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 

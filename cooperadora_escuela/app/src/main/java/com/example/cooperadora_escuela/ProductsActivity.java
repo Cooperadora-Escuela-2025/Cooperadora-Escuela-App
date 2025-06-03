@@ -2,175 +2,171 @@ package com.example.cooperadora_escuela;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.bumptech.glide.Glide;
+import com.example.cooperadora_escuela.models.Product;
+import com.example.cooperadora_escuela.network.auth.Api;
+import com.example.cooperadora_escuela.network.auth.ProductApi;
+import com.example.cooperadora_escuela.ui.ProfileActivity;
+import com.google.android.material.navigation.NavigationView;
+
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProductsActivity extends AppCompatActivity {
+
     private List<Product> productList;
     private Cart cart;
-    private DatabaseHelper dbHelper;
+    private ProductApi productApi;
+    private LinearLayout productsContainer;
     private ActivityResultLauncher<Intent> editProductLauncher;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
 
+        // Configurar toolbar y drawer layout
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(ProductsActivity.this, MainActivity.class));
+            } else if (id == R.id.nav_product) {
+                // Ya estás en Productos
+            } else if (id == R.id.nav_cuota) {
+                Toast.makeText(ProductsActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.nav_perfil) {
+                startActivity(new Intent(ProductsActivity.this, ProfileActivity.class));
+            } else if (id == R.id.nav_contact) {
+                Intent intent = new Intent(ProductsActivity.this, ContactActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_about) {
+                startActivity(new Intent(ProductsActivity.this, AboutUsActivity.class));
+            } else if (id == R.id.nav_logout) {
+                Toast.makeText(ProductsActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
+            }
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+
         cart = Cart.getInstance();
-        dbHelper = new DatabaseHelper(this);
-        productList = new ArrayList<>();
+        productApi = Api.getRetrofit().create(ProductApi.class);
+        productsContainer = findViewById(R.id.productsContainer);
 
         editProductLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        refreshProducts();
+                        fetchProductsFromApi();
                         Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        loadInitialProducts();
-        setupUI();
-    }
-
-    private void loadInitialProducts() {
-        productList = dbHelper.getAllProducts();
-        if (productList.isEmpty()) {
-            createDefaultProducts();
-        }
-    }
-
-    private void createDefaultProducts() {
-        int[] imageResources = {
-                R.drawable.libreta_calificaciones,
-                R.drawable.pago_matricula,
-                R.drawable.pago_mensual,
-                R.drawable.remera_escolar1
-        };
-
-        String[] names = {
-                "Libreta Escolar",
-                "Pago matricula",
-                "Pago mensual",
-                "Remera escolar"
-        };
-
-        double[] prices = {10000.00, 20000.00, 3500.00, 15000.00};
-
-        for (int i = 0; i < names.length; i++) {
-            Product product = new Product(i + 1, names[i], prices[i], imageResources[i]);
-            productList.add(product);
-            dbHelper.addProduct(product);
-        }
-    }
-
-    private void setupUI() {
-        setupProductViews();
-        setupAddToCartButtons();
+        fetchProductsFromApi();
         setupViewCartButton();
     }
 
-    private void setupProductViews() {
+    private void fetchProductsFromApi() {
+        productApi.getAllProducts().enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    productList = response.body();
+                    displayProductsDynamically();
+                } else {
+                    Toast.makeText(ProductsActivity.this, "Error al cargar productos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e("API_ERROR", "Fallo al obtener productos: " + t.getMessage());
+                Toast.makeText(ProductsActivity.this, "Error de red al obtener productos", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void displayProductsDynamically() {
+        productsContainer.removeAllViews();
+
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
+        LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (int i = 0; i < productList.size() && i < 4; i++) {
-            Product product = productList.get(i);
+        for (Product product : productList) {
+            View itemView = inflater.inflate(R.layout.item_product, productsContainer, false);
 
-            int[] viewIds = getViewIdsForProduct(i);
-            ImageView imageView = findViewById(viewIds[0]);
-            TextView nameView = findViewById(viewIds[1]);
-            TextView priceView = findViewById(viewIds[2]);
-            Button editButton = findViewById(viewIds[3]);
-            Button addToCartButton = findViewById(viewIds[4]);
+            ImageView imageView = itemView.findViewById(R.id.productImage);
+            TextView nameView = itemView.findViewById(R.id.productName);
+            TextView priceView = itemView.findViewById(R.id.productPrice);
+            Button btnEdit = itemView.findViewById(R.id.btnEditProduct);
+            Button btnAddToCart = itemView.findViewById(R.id.addToCart);
 
-            if (imageView != null) {
-                imageView.setImageResource(product.getImageResource());
-                imageView.setContentDescription(getString(R.string.product_image_description));
-            }
+            nameView.setText(product.getName());
+            priceView.setText(currencyFormat.format(product.getPrice()));
 
-            if (nameView != null) {
-                nameView.setText(product.getName());
-                nameView.setContentDescription(product.getName());
-            }
+            Glide.with(this)
+                    .load(product.getImage())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(imageView);
 
-            if (priceView != null) {
-                priceView.setText(currencyFormat.format(product.getPrice()));
-                priceView.setContentDescription(getString(R.string.price_content_description,
-                        currencyFormat.format(product.getPrice())));
-            }
+            btnEdit.setOnClickListener(v -> launchEditProductActivity(product));
 
-            if (editButton != null) {
-                editButton.setMinHeight(getResources().getDimensionPixelSize(R.dimen.button_min_height));
-                editButton.setOnClickListener(v -> launchEditProductActivity(product));
-                editButton.setContentDescription(getString(R.string.edit_product_desc) + " " + product.getName());
-            }
+            btnAddToCart.setOnClickListener(v -> {
+                cart.addProduct(product);
+                Toast.makeText(this, product.getName() + " agregado al carrito", Toast.LENGTH_SHORT).show();
+            });
 
-            if (addToCartButton != null) {
-                addToCartButton.setMinHeight(getResources().getDimensionPixelSize(R.dimen.button_min_height));
-            }
-        }
-    }
-
-    private int[] getViewIdsForProduct(int index) {
-        int[] imageViewIds = {R.id.productImage1, R.id.productImage2, R.id.productImage3, R.id.productImage4};
-        int[] nameViewIds = {R.id.productName1, R.id.productName2, R.id.productName3, R.id.productName4};
-        int[] priceViewIds = {R.id.productPrice1, R.id.productPrice2, R.id.productPrice3, R.id.productPrice4};
-        int[] editButtonIds = {R.id.btnEditProduct1, R.id.btnEditProduct2, R.id.btnEditProduct3, R.id.btnEditProduct4};
-        int[] addToCartButtonIds = {R.id.addToCart1, R.id.addToCart2, R.id.addToCart3, R.id.addToCart4};
-
-        return new int[]{
-                imageViewIds[index],
-                nameViewIds[index],
-                priceViewIds[index],
-                editButtonIds[index],
-                addToCartButtonIds[index]
-        };
-    }
-
-    private void launchEditProductActivity(Product product) {
-        Intent intent = new Intent(this, EditProductActivity.class);
-        intent.putExtra("product", product);
-        editProductLauncher.launch(intent);
-    }
-
-    private void setupAddToCartButtons() {
-        int[] buttonIds = {R.id.addToCart1, R.id.addToCart2, R.id.addToCart3, R.id.addToCart4};
-
-        for (int i = 0; i < buttonIds.length && i < productList.size(); i++) {
-            int productIndex = i;
-            Button button = findViewById(buttonIds[i]);
-            if (button != null) {
-                button.setMinHeight(getResources().getDimensionPixelSize(R.dimen.button_min_height));
-                button.setOnClickListener(v -> addProductToCart(productIndex));
-                button.setContentDescription(getString(R.string.add_to_cart) + " " + productList.get(productIndex).getName());
-            }
-        }
-    }
-
-    private void addProductToCart(int productIndex) {
-        if (productIndex < productList.size()) {
-            Product product = productList.get(productIndex);
-            cart.addProduct(product);
-            Toast.makeText(this, product.getName() + " agregado al carrito", Toast.LENGTH_SHORT).show();
+            productsContainer.addView(itemView);
         }
     }
 
     private void setupViewCartButton() {
         Button viewCartButton = findViewById(R.id.viewCartButton);
         if (viewCartButton != null) {
-            viewCartButton.setMinHeight(getResources().getDimensionPixelSize(R.dimen.button_min_height));
             viewCartButton.setOnClickListener(v -> {
                 if (cart.getProducts().isEmpty()) {
                     Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show();
@@ -181,9 +177,10 @@ public class ProductsActivity extends AppCompatActivity {
         }
     }
 
-    private void refreshProducts() {
-        productList = dbHelper.getAllProducts();
-        setupProductViews();
+    private void launchEditProductActivity(Product product) {
+        Intent intent = new Intent(this, EditProductActivity.class);
+        intent.putExtra("product", product);
+        editProductLauncher.launch(intent);
     }
 
     @Override

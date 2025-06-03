@@ -1,10 +1,13 @@
 package com.example.cooperadora_escuela.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -17,6 +20,9 @@ import androidx.preference.PreferenceManager;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
+
+import com.example.cooperadora_escuela.AboutUsActivity;
+import com.example.cooperadora_escuela.ContactActivity;
 import com.example.cooperadora_escuela.ProductsActivity;
 import com.example.cooperadora_escuela.R;
 import com.google.android.material.navigation.NavigationView;
@@ -82,6 +88,12 @@ public class DashboardActivity extends AppCompatActivity {
                     Toast.makeText(DashboardActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_perfil) {
                     Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.nav_contact) {
+                    Intent intent = new Intent(DashboardActivity.this, ContactActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.nav_about) {
+                    Intent intent = new Intent(DashboardActivity.this, AboutUsActivity.class);
                     startActivity(intent);
 
                 }else if (id == R.id.nav_accesibilidad) {
