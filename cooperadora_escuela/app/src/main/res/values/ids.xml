@@ -17,4 +17,6 @@
     <item name="productPrice4" type="id"/>
     <item name="addToCart4" type="id"/>
     <item name="viewCartButton" type="id"/>
+    <item name="Name_1" type="id"/>
+
 </resources>

@@ -83,5 +83,31 @@
 
     <string name="view_cart_desc">Ver productos en el carrito</string>
 
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_products">Productos</string>
+    <string name="menu_contact">Contacto</string>
+    <string name="menu_about">Quiénes Somos</string>
+    <string name="menu_app">Nuestra App</string>
+    <string name="logo_escuela">Logo de la escuela</string>
+    <string name="slogan_escuela">Educando para el futuro</string>
+    <string name="welcome_title">Bienvenido a la Cooperadora</string>
+    <string name="actividades_title">Actividades Escolares</string>
+    <string name="eventos_title">Productos escolares</string>
+    <string name="ver_mas">Ver más</string>
+    <string name="desc_imagen_escuela">Imagen de actividades escolares</string>
+    <string name="desc_imagen_eventos">Imagen de eventos escolares</string>
+
+    <string name="desc_imagen_nueva1">Descripción de la nueva imagen 1</string>
+    <string name="desc_imagen_nueva2">Descripción de la nueva imagen 2</string>
+    <string name="nueva1_title">Abonar cuotas</string>
+    <string name="nueva2_title">Anuncios Destacados</string>
+
+    <string name="btn_activities_desc">Ver más sobre actividades escolares</string>
+    <string name="btn_events_desc">Ver más sobre eventos escolares</string>
+    <string name="btn_new1_desc">Ver más sobre nueva sección 1</string>
+    <string name="btn_new2_desc">Ver más sobre nueva sección 2</string>
+
 
 </resources>
