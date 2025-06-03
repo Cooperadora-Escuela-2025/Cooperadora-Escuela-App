@@ -31,7 +31,8 @@
         android:textColor="#FFFFFF"
         android:padding="16dp"
         android:layout_marginBottom="8dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:contentDescription="Titulo de iniciar sesión"/>
 
     <!-- contenedor del formulario -->
     <LinearLayout
@@ -61,7 +62,7 @@
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/black"
-               />
+                android:contentDescription="Ingresar correo"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Contraseña -->
@@ -75,7 +76,8 @@
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusBottomEnd="12dp"
-            app:boxStrokeColor="@color/input_stroke">
+            app:boxStrokeColor="@color/input_stroke"
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPassword"
@@ -84,7 +86,7 @@
                 android:hint="Contraseña"
                 android:inputType="textPassword"
                 android:textColor="@color/black"
-                />
+                android:contentDescription="Ingresar contrseña"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- mensaje de error -->
@@ -95,7 +97,8 @@
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/error"/>
+            android:textColor="@color/error"
+            android:contentDescription="Mensaje de error"/>
 
         <!-- Botón login -->
         <com.google.android.material.button.MaterialButton
@@ -104,7 +107,8 @@
             android:layout_height="wrap_content"
             style="@style/GradientButtonStyle"
             android:text="Iniciar sesión"
-            android:layout_marginTop="18dp"/>
+            android:layout_marginTop="18dp"
+            android:contentDescription="Botón para iniciar sesión"/>
 
         <!-- Link a registro -->
         <TextView
@@ -116,6 +120,7 @@
             android:layout_marginTop="25dp"
             android:clickable="true"
             android:focusable="true"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="Enlace para registrarse si no tienes cuenta"/>
     </LinearLayout>
 </LinearLayout>

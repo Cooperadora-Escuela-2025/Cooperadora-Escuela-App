@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.cooperadora_escuela.R;
 import com.example.cooperadora_escuela.network.UserService;
-import com.example.cooperadora_escuela.network.auth.Api;
+import com.example.cooperadora_escuela.network.auth.ApiUser;
 import com.example.cooperadora_escuela.network.auth.RegisterRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         btnRegister.setOnClickListener(v -> {
+
             String first_name = etFirstName.getText().toString().trim();
             String last_name = etLastName.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
@@ -45,7 +48,12 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (!password.equals(password2)) {
                 idMessage.setText("Las contraseñas no coinciden");
+                return;
+            }
 
+            String passwordValidationError = validatePassword(password);
+            if (passwordValidationError != null) {
+                idMessage.setText(passwordValidationError);
                 return;
             }
 
@@ -63,8 +71,27 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+
+
+    private String validatePassword(String password) {
+        if (password.length() < 8) {
+            return "La contraseña debe tener al menos 8 caracteres, incluir letras, números y un carácter especial.";
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            return "La contraseña debe incluir al menos una letra mayúscula.";
+        }
+        if (!password.matches(".*\\d.*")) {
+            return "La contraseña debe incluir al menos un número.";
+        }
+        if (!password.matches(".*[@$!%*?&._-].*")) {
+            return "La contraseña debe incluir al menos un carácter especial (@$!%*?&._-).";
+        }
+        return null;
+    }
+
+
     private void registerUser(RegisterRequest request) {
-        UserService authService = Api.getRetrofit().create(UserService.class);
+        UserService authService = ApiUser.getRetrofit(RegisterActivity.this).create(UserService.class);
 
         Call<ResponseBody> call = authService.registerUser(request);
 
@@ -72,7 +99,16 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    idMessage.setText("Registro exitoso!");
+                    Toast.makeText(RegisterActivity.this, "Registro exitoso. Redirigiendo al login...", Toast.LENGTH_SHORT).show();
+
+                    //traer el email del formulario
+                    String email = request.getEmail();
+
+                    // intent hacia Login con el email
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    intent.putExtra("email", email);
+                    startActivity(intent);
+                    finish();
 
                 } else {
                     try {

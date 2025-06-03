@@ -17,7 +17,7 @@ import androidx.security.crypto.MasterKey;
 import com.example.cooperadora_escuela.MainActivity;
 import com.example.cooperadora_escuela.R;
 import com.example.cooperadora_escuela.network.UserService;
-import com.example.cooperadora_escuela.network.auth.Api;
+import com.example.cooperadora_escuela.network.auth.ApiUser;
 import com.example.cooperadora_escuela.network.auth.LoginRequest;
 import com.example.cooperadora_escuela.network.auth.LoginResponse;
 
@@ -41,19 +41,22 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-//        Button btnIrALogin = findViewById(R.id.btnLogin);
-//        btnIrALogin.setOnClickListener(view -> {
-//            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-//            startActivity(intent);
-//        });
+
         // inicializar vistas
         editEmail = findViewById(R.id.editTextEmail);
         editPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.btnLogin);
         idMessage=findViewById(R.id.idMessage);
 
+        String emailFromRegister = getIntent().getStringExtra("email");
+        if (emailFromRegister != null && !emailFromRegister.isEmpty()) {
+            editEmail.setText(emailFromRegister);
+        }
+
         // inicializar Retrofit
-        authService = Api.getRetrofit().create(UserService.class);
+        authService = ApiUser.getRetrofit(LoginActivity.this).create(UserService.class);
+
+
 
         // acción del botón
         btnLogin.setOnClickListener(new View.OnClickListener() {

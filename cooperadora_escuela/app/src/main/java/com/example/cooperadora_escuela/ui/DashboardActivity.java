@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
@@ -32,23 +35,16 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        applyThemeFromPrefs();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
         //boton que lleva a productos
         Button btnIr = findViewById(R.id.btn);
         btnIr.setOnClickListener(view -> {
-            Intent intent = new Intent(DashboardActivity.this, ProductsActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, ProducActivity.class);
             startActivity(intent);
         });
-
-
-
-
-
-
-
-
 
         //para el menu lateral
         // referencias
@@ -68,6 +64,9 @@ public class DashboardActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        // cambiar color del ícono hamburguesa a blanco
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+
         // items del menú lateral de menu_drawer
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -84,9 +83,16 @@ public class DashboardActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_perfil) {
                     Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
                     startActivity(intent);
+
+                }else if (id == R.id.nav_accesibilidad) {
+                        Intent intent = new Intent(DashboardActivity.this, AccessibilityActivity.class);
+                        startActivity(intent);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
                 } else if (id == R.id.nav_logout) {
                     //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
-                    logoutUser(); // Aquí llamamos al método que vas a crear
+                    logoutUser(); // llamamos a salir
                     return true;
                 }
 
@@ -96,8 +102,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         });
         //fin menu lateral
-
-
 
     }
     //cerrar seison
@@ -118,7 +122,7 @@ public class DashboardActivity extends AppCompatActivity {
             editor.clear(); // borra todos los tokens
             editor.apply();
 
-            // Volver al login eliminando el historial de pantallas
+            // volver al login eliminando el historial
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -127,6 +131,19 @@ public class DashboardActivity extends AppCompatActivity {
         }catch(GeneralSecurityException | IOException e){
             e.printStackTrace();
             Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void applyThemeFromPrefs() { //accesibilidad
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isAccessible = prefs.getBoolean("accessible_theme", false);
+
+        if (isAccessible) {
+            setTheme(R.style.AppTheme_Accessible);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            setTheme(R.style.Theme_Cooperadora_escuela);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
     }
 

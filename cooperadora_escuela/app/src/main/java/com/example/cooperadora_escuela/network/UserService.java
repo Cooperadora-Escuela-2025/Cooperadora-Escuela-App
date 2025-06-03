@@ -1,9 +1,12 @@
 package com.example.cooperadora_escuela.network;
+import com.example.cooperadora_escuela.models.Produ;
 import com.example.cooperadora_escuela.network.auth.LoginRequest;
 import com.example.cooperadora_escuela.network.auth.LoginResponse;
 import com.example.cooperadora_escuela.network.auth.RegisterRequest;
 import com.example.cooperadora_escuela.network.profile.ProfileRequest;
 import com.example.cooperadora_escuela.network.profile.ProfileResponse;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -27,4 +30,7 @@ public interface UserService {
 
     @PUT("profile/")
     Call<ProfileResponse> updateProfile(@Header("Authorization") String token, @Body ProfileRequest request);
+
+    @GET("/products/")
+        Call<List<Produ>> getProductos();
 }

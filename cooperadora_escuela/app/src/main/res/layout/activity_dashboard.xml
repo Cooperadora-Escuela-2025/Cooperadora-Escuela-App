@@ -21,8 +21,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@drawable/rectangular_gradient_background"
-
                 app:title="Dashboard"
+                app:titleTextColor="@color/white"
+                android:contentDescription="Dashboard"
                 />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -51,7 +52,8 @@
                     android:text="productos"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="@color/purple_500"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:contentDescription="Botón para ir a productos"/>
                 <!-- iria el contenido del home-->
 
             </LinearLayout>
@@ -66,5 +68,7 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/activity_menu_logo_name"
         app:itemBackground="@drawable/menu_item_background"
-        app:menu="@menu/menu_drawer" />
+        app:menu="@menu/menu_drawer"
+        android:textColor="#FFFFFF"
+        android:contentDescription="Menú lateral"/>
 </androidx.drawerlayout.widget.DrawerLayout>

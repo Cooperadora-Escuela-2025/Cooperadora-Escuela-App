@@ -10,14 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
 import com.example.cooperadora_escuela.R;
 import com.example.cooperadora_escuela.network.UserService;
-import com.example.cooperadora_escuela.network.auth.Api;
+import com.example.cooperadora_escuela.network.auth.ApiUser;
 import com.example.cooperadora_escuela.network.profile.ProfileRequest;
 import com.example.cooperadora_escuela.network.profile.ProfileResponse;
 
@@ -38,8 +41,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        applyThemeFromPrefs();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+
+
 
         // Toolbar con flecha atrás
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -101,6 +108,19 @@ public class ProfileActivity extends AppCompatActivity {
         etTurno.setOnClickListener(v -> etTurno.showDropDown());
         etGrado.setOnClickListener(v -> etGrado.showDropDown());
 
+        applyFontSizeIfNeeded();
+
+        //aumenta fuente
+        SwitchCompat switchFontSize = findViewById(R.id.switch_font_size); // tenés que agregarlo en el XML
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        switchFontSize.setChecked(prefs.getBoolean("increase_font_size", false));
+
+        switchFontSize.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            prefs.edit().putBoolean("increase_font_size", isChecked).apply();
+            recreate(); // para que tome el cambio de tamaño
+        });
+
     }
 
     // Manejar flecha atrás en Toolbar
@@ -117,7 +137,7 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        UserService userService = Api.getRetrofit().create(UserService.class);
+        UserService userService = ApiUser.getRetrofit(ProfileActivity.this).create(UserService.class);
         Call<ProfileResponse> call = userService.getProfile(token);
 
         call.enqueue(new Callback<ProfileResponse>() {
@@ -190,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Validar teléfono: solo dígitos, 10 u 11 caracteres
         if (!telefono.matches("^\\d{10,11}$")) {
-            etDni.setError( "El teléfono debe tener 10 u 11 dígitos numéricos");
+            etDni.setError("El teléfono debe tener 10 u 11 dígitos numéricos");
             return;
         }
 
@@ -214,7 +234,7 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
         ProfileRequest request = new ProfileRequest(nombre, apellido, email, dni, turno, grado, telefono);
-        UserService userService = Api.getRetrofit().create(UserService.class);
+        UserService userService = ApiUser.getRetrofit(ProfileActivity.this).create(UserService.class);
 
         Call<ProfileResponse> call = userService.updateProfile(token, request);
         call.enqueue(new Callback<ProfileResponse>() {
@@ -234,4 +254,26 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
+private void applyFontSizeIfNeeded() {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean increaseFont = prefs.getBoolean("increase_font_size", false);
+
+    if (increaseFont) {
+        float newSize = 25f;
+
+        // aumentar tamaño solo si el usuario lo quiere
+        etNombre.setTextSize(newSize);
+        etApellido.setTextSize(newSize);
+        etDni.setTextSize(newSize);
+        etTurno.setTextSize(newSize);
+        etGrado.setTextSize(newSize);
+        etTelefono.setTextSize(newSize);
+        tvEmail.setTextSize(newSize);
+        btnGuardar.setTextSize(newSize);
+    }
+}
+
+
 }

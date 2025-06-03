@@ -22,6 +22,11 @@
         android:icon="@drawable/ic_user" />
 
     <item
+        android:id="@+id/nav_accesibilidad"
+        android:title="Accesibilidad"
+        android:icon="@drawable/ic_accessibility" />
+
+    <item
         android:id="@+id/nav_logout"
         android:title="Cerrar sesión"
         android:icon="@drawable/ic_logout" />

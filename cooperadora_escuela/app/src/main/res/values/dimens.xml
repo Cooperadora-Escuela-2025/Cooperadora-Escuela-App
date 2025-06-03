@@ -20,4 +20,7 @@
     <dimen name="button_margin_horizontal">4dp</dimen>
     <dimen name="button_margin_vertical">16dp</dimen>
 
+    <!-- Tamaños de texto -->
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_title">22sp</dimen>
 </resources>

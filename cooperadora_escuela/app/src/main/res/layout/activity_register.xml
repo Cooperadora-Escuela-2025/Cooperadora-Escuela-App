@@ -10,7 +10,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-
     android:orientation="vertical"
     android:gravity="top">
 
@@ -37,7 +36,8 @@
         android:textColor="#FFFFFF"
         android:padding="16dp"
         android:layout_marginBottom="8dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:contentDescription="Titulo registro"/>
 
     <!-- contenedor del REGISTRO -->
     <LinearLayout
@@ -58,7 +58,8 @@
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusBottomEnd="12dp">
+            app:boxCornerRadiusBottomEnd="12dp"
+           >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFirstName"
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_first_name"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- apellido -->
@@ -88,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_last_name"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- email -->
@@ -110,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- contraseña -->
@@ -119,11 +120,12 @@
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#3F51B5"
+            app:boxStrokeColor="@color/sombreado"
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusBottomEnd="12dp">
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPassword"
@@ -131,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- confirmar contraseña -->
@@ -141,11 +143,13 @@
             android:layout_marginTop="16dp"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#3F51B5"
+            app:boxStrokeColor="@color/sombreado"
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusBottomEnd="12dp">
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:endIconMode="password_toggle"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPassword2"
@@ -165,7 +169,8 @@
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/error"/>
+            android:textColor="@color/error"
+            android:contentDescription="Mensaje de error"/>
 
         <!-- boton registro -->
         <com.google.android.material.button.MaterialButton
@@ -174,9 +179,10 @@
             android:layout_height="48dp"
             style="@style/GradientButtonStyle"
             android:text="@string/register"
-            android:layout_marginTop="18dp"/>
+            android:layout_marginTop="18dp"
+            android:contentDescription="Botón para enviar formulario de registro"/>
 
-        <!-- link a registro -->
+        <!-- link a login -->
         <TextView
             android:id="@+id/textRegisterLink"
             android:layout_width="wrap_content"
@@ -186,7 +192,8 @@
             android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="Enlace para iniciar sesión si tienes una cuenta"/>
     </LinearLayout>
 </LinearLayout>
 </ScrollView>

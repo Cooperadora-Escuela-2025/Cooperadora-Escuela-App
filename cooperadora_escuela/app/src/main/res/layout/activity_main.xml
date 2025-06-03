@@ -2,20 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
     android:layout_gravity="center"
-    android:background="@drawable/background_login_container">
+    android:background="@drawable/main_img"
+    android:scaleType="fitCenter">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/logo"
+        android:contentDescription="Logo"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/RoundedImage"
+        android:layout_marginBottom="16dp" />
+
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cooperadora Escuela"
-        android:textSize="26sp"
+        android:textSize="35sp"
         android:textStyle="bold"
-        android:textColor="#2C3E50"
-        android:layout_marginBottom="32dp" />
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="25dp"
+        android:contentDescription="Título principal"/>
 
     <Button
         android:id="@+id/btnLogin"
@@ -23,14 +41,16 @@
         android:layout_height="wrap_content"
         android:text="Iniciar sesión"
         android:layout_marginBottom="16dp"
-        style="@style/GradientButtonStyle"/>
+        style="@style/GradientButtonStyle"
+        android:contentDescription="Botón de iniciar sesión"/>
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrarse"
-        style="@style/GradientButtonStyle"/>
+        style="@style/GradientButtonStyle"
+        android:contentDescription="Botón de registro"/>
 <!--    <EditText-->
 <!--        android:id="@+id/etUsername"-->
 <!--        android:layout_width="300dp"-->
