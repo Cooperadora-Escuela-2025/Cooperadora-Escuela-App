@@ -65,6 +65,9 @@ public class AboutUsActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_perfil) {
                     Intent intent = new Intent(AboutUsActivity.this, ProfileActivity.class);
                     startActivity(intent);
+                } else if (id == R.id.nav_contact) {
+                    Intent intent = new Intent(AboutUsActivity.this, ContactActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.nav_logout) {
                     Toast.makeText(AboutUsActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
                 }

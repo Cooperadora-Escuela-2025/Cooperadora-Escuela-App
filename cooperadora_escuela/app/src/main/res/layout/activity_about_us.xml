@@ -7,33 +7,39 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- Contenido Principal -->
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- Contenedor Principal -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <!-- AppBar con Toolbar -->
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/rectangular_gradient_background"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="Sobre Nosotros"
-            />
+            android:layout_height="wrap_content">
 
-        <!-- Contenido Sobre Nosotros -->
-        <ScrollView
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/rectangular_gradient_background"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title="Sobre Nosotros" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Contenido desplazable -->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <!-- Título -->
                 <TextView
                     android:text="Conocenos"
                     android:textSize="24sp"
@@ -122,8 +128,8 @@
                     android:padding="12dp"
                     android:layout_marginBottom="24dp" />
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Menú lateral -->
     <com.google.android.material.navigation.NavigationView
@@ -133,6 +139,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@android:color/white"
-        app:menu="@menu/menu_drawer"/>
+        app:menu="@menu/menu_drawer"
+        app:headerLayout="@layout/activity_menu_logo_name"
+        app:itemBackground="@drawable/menu_item_background"/>
 </androidx.drawerlayout.widget.DrawerLayout>
-

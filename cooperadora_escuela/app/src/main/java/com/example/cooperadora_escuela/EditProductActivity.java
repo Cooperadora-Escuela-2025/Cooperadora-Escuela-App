@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cooperadora_escuela.models.Product;
+
 public class EditProductActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
@@ -29,17 +31,17 @@ public class EditProductActivity extends AppCompatActivity {
         etImageUrl = findViewById(R.id.etProductImageUrl);
         btnDelete = findViewById(R.id.btnDeleteProduct);
 
-        // Botón Volver debajo del botón Guardar
         Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        // Obtener datos del Intent
+        // Ahora el producto se identifica por ID, no solo por nombre
+        int productId = getIntent().getIntExtra("product_id", -1);
         String name = getIntent().getStringExtra("product_name");
         double price = getIntent().getDoubleExtra("product_price", -1);
         String image = getIntent().getStringExtra("product_image");
 
-        if (name != null && price >= 0 && image != null) {
-            product = new Product(name, price, image);
+        if (productId != -1 && name != null && price >= 0 && image != null) {
+            product = new Product(productId, name, price, image); // constructor con id
             fillFields(product);
             btnDelete.setVisibility(Button.VISIBLE);
         } else {
@@ -78,10 +80,9 @@ public class EditProductActivity extends AppCompatActivity {
             return;
         }
 
-        Product newProduct = new Product(name, price, imageUrl);
-
         if (product == null) {
-            // Nuevo producto
+            // Crear nuevo producto - sin id (se genera en backend y bd)
+            Product newProduct = new Product(name, price, imageUrl);
             long result = dbHelper.addProduct(newProduct);
             if (result != -1) {
                 showSuccess("Producto creado exitosamente");
@@ -89,8 +90,9 @@ public class EditProductActivity extends AppCompatActivity {
                 showError("Error al crear el producto");
             }
         } else {
-            // Actualizar producto existente
-            int rows = dbHelper.updateProduct(newProduct);
+            // Actualizar producto existente, conservar el id
+            Product updatedProduct = new Product(product.getId(), name, price, imageUrl);
+            int rows = dbHelper.updateProduct(updatedProduct);
             if (rows > 0) {
                 showSuccess("Producto actualizado exitosamente");
             } else {
@@ -101,7 +103,7 @@ public class EditProductActivity extends AppCompatActivity {
 
     private void deleteProduct() {
         if (product != null) {
-            int rows = dbHelper.deleteProduct(product.getName());
+            int rows = dbHelper.deleteProductById(product.getId()); // BORRAR POR ID
             if (rows > 0) {
                 showSuccess("Producto eliminado exitosamente");
             } else {

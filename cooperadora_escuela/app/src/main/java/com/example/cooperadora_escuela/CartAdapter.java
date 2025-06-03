@@ -12,15 +12,13 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.cooperadora_escuela.models.Product;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
+
     private final List<Product> productList;
     private final Map<String, Integer> productQuantities;
     private OnItemClickListener onItemClickListener;
@@ -48,13 +46,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Map<String, Product> uniqueProducts = new HashMap<>();
         for (Product product : newProducts) {
             if (product == null) continue;
-
             String key = product.getName();
             productQuantities.merge(key, 1, Integer::sum);
-
-            if (!uniqueProducts.containsKey(key)) {
-                uniqueProducts.put(key, product);
-            }
+            uniqueProducts.putIfAbsent(key, product);
         }
 
         productList.addAll(uniqueProducts.values());
@@ -80,8 +74,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         int position = findProductPosition(key);
 
         if (position != -1) {
-            Integer newCount = productQuantities.compute(key, (k, count) ->
-                    (count == null || count <= 1) ? null : count - 1);
+            Integer newCount = productQuantities.compute(key, (k, count) -> (count == null || count <= 1) ? null : count - 1);
 
             if (newCount == null) {
                 productList.remove(position);
@@ -113,17 +106,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         Product product = productList.get(position);
-        if (product != null) {
-            String key = product.getName();
-            Integer quantity = productQuantities.get(key);
-            holder.bind(product, quantity != null ? quantity : 1);
+        if (product == null) return;
 
-            holder.removeButton.setOnClickListener(v -> {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onRemoveClick(product);
-                }
-            });
-        }
+        String key = product.getName();
+        int quantity = productQuantities.getOrDefault(key, 1);
+        holder.bind(product, quantity);
+
+        holder.removeButton.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onRemoveClick(product);
+            }
+        });
     }
 
     @Override
@@ -131,11 +124,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads);
         } else {
-            Product product = productList.get(position);
-            if (product != null) {
-                Integer quantity = (Integer) payloads.get(0);
-                holder.updateQuantity(quantity);
-            }
+            Integer quantity = (Integer) payloads.get(0);
+            holder.updateQuantity(quantity);
         }
     }
 
@@ -144,25 +134,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return productList.size();
     }
 
-    public static class CartViewHolder extends RecyclerView.ViewHolder {
+    static class CartViewHolder extends RecyclerView.ViewHolder {
         private final ImageView productImage;
         private final TextView productName;
         private final TextView productPrice;
         private final TextView productQuantity;
         private final ImageButton removeButton;
 
-        public CartViewHolder(@NonNull View itemView) {
+        CartViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.productImage);
             productName = itemView.findViewById(R.id.productName);
             productPrice = itemView.findViewById(R.id.productPrice);
             productQuantity = itemView.findViewById(R.id.productQuantity);
             removeButton = itemView.findViewById(R.id.removeButton);
-
             removeButton.setContentDescription(itemView.getContext().getString(R.string.remove_item));
         }
 
-        public void bind(@NonNull Product product, int quantity) {
+        void bind(@NonNull Product product, int quantity) {
             productName.setText(product.getName());
             productName.setContentDescription(product.getName());
 
@@ -172,20 +161,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             productPrice.setContentDescription(
                     itemView.getContext().getString(R.string.price_content_description, price));
 
-            // Usar Glide para cargar imagen desde URL
             Glide.with(itemView.getContext())
                     .load(product.getImage())
                     .into(productImage);
 
-            productImage.setContentDescription(
-                    itemView.getContext().getString(R.string.product_image_description));
+            productImage.setContentDescription(itemView.getContext().getString(R.string.product_image_description));
 
             updateQuantity(quantity);
         }
 
-        public void updateQuantity(int quantity) {
-            String quantityText = itemView.getContext()
-                    .getString(R.string.quantity_label, quantity);
+        void updateQuantity(int quantity) {
+            String quantityText = itemView.getContext().getString(R.string.quantity_label, quantity);
             productQuantity.setText(quantityText);
             productQuantity.setContentDescription(quantityText);
         }
@@ -195,7 +181,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         private final List<Product> oldList;
         private final List<Product> newList;
 
-        public ProductDiffCallback(List<Product> oldList, List<Product> newList) {
+        ProductDiffCallback(List<Product> oldList, List<Product> newList) {
             this.oldList = oldList;
             this.newList = newList;
         }

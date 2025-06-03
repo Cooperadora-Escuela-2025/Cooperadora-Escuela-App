@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.bumptech.glide.Glide;
 import com.example.cooperadora_escuela.Cart;
 import com.example.cooperadora_escuela.CartActivity;
 import com.example.cooperadora_escuela.EditProductActivity;
@@ -97,10 +98,12 @@ public class ProductActivity extends AppCompatActivity {
             Button addToCartButton = findViewById(viewIds[4]);
 
             if (imageView != null) {
-                // Aquí puedes usar Glide o Picasso para cargar imagen remota si el Product tiene URL
-                imageView.setImageResource(product.getImage());
+                Glide.with(this)
+                        .load(product.getImage()) // carga la URL que está en el string image
+                        .into(imageView);
                 imageView.setContentDescription(getString(R.string.product_image_description));
             }
+
 
             if (nameView != null) {
                 nameView.setText(product.getName());

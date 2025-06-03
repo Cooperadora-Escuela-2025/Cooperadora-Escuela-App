@@ -4,36 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
-    <!-- Contenido Principal -->
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- Contenedor principal -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/rectangular_gradient_background"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="Contacto"
-            />
+            android:layout_height="wrap_content">
 
-        <!-- Contenido Formulario de Contacto -->
-        <ScrollView
+            <!-- Toolbar con fondo gradiente y título -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/rectangular_gradient_background"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title="Contacto" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:fillViewport="true">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
+                <!-- Título del formulario -->
                 <TextView
                     android:text="Comunicate con nosotros"
                     android:textSize="24sp"
@@ -114,21 +118,11 @@
                     android:padding="12dp"
                     android:layout_marginBottom="24dp" />
 
-                <!-- Botón Volver -->
-                <Button
-                    android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Volver"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#6c757d"
-                    android:textColor="@android:color/white"
-                    android:padding="12dp"
-                    android:layout_marginBottom="24dp" />
-
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Menú lateral -->
     <com.google.android.material.navigation.NavigationView
@@ -136,8 +130,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        android:background="@android:color/white"
-        app:menu="@menu/menu_drawer"/>
+        app:headerLayout="@layout/activity_menu_logo_name"
+        app:itemBackground="@drawable/menu_item_background"
+        app:menu="@menu/menu_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
