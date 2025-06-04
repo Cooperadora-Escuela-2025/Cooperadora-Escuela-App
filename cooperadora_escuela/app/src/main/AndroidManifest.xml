@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>
     <!-- permiso para acceder a Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -64,6 +66,8 @@
             android:exported="false" />
 
         <activity android:name=".WebActivity" />
+
+        <activity android:name=".ui.PurchaseReceiptActivity" />
 
         <activity
             android:name=".EditProductActivity"

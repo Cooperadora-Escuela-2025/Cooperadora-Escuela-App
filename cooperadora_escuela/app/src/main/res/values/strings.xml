@@ -55,7 +55,8 @@
     <string name="cart_item_content_description">Producto del carrito</string>
 
     <!-- Checkout -->
-    <string name="checkout_title">Finalizar Compra</string>
+    <string name="checkout_title">Completar la compra</string>
+    <string name="checkout_subtitle">Datos para finalizar la compra</string>
     <string name="personal_info_title">Información Personal</string>
     <string name="payment_method_title">Método de Pago</string>
     <string name="confirm_purchase">Confirmar Compra</string>
