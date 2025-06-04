@@ -1,108 +1,89 @@
-package com.example.cooperadora_escuela.ui;
+package com.example.cooperadora_escuela;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatDelegate;
-
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.preference.PreferenceManager;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
-
-import com.example.cooperadora_escuela.AboutUsActivity;
-import com.example.cooperadora_escuela.ContactActivity;
-import com.example.cooperadora_escuela.HomeActivity;
-import com.example.cooperadora_escuela.ProductsActivity;
-import com.example.cooperadora_escuela.R;
-import com.example.cooperadora_escuela.WebActivity;
+import com.example.cooperadora_escuela.ui.AccessibilityActivity;
+import com.example.cooperadora_escuela.ui.LoginActivity;
+import com.example.cooperadora_escuela.ui.ProfileActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+public class WebActivity extends AppCompatActivity {
 
-public class DashboardActivity extends AppCompatActivity {
+    private static final String REPO_URL = "https://github.com/Cooperadora-Escuela-2025/Cooperadora-Escuela-Web";
 
     private DrawerLayout drawerLayout;
-    private NavigationView navView;
-    private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
-
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        applyThemeFromPrefs();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_web);
 
-        //boton que lleva a productos
-//        Button btnIr = findViewById(R.id.btn);
-//        btnIr.setOnClickListener(view -> {
-//            Intent intent = new Intent(DashboardActivity.this, ProducActivity.class);
-//            startActivity(intent);
-//        });
-
-        //para el menu lateral
-        // referencias
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
-
-        // configurar el toolbar como actionBar
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // crear y sincroniza el toggle de la hamburguesa
+        // Drawer setup
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+
         toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
+                this,
+                drawerLayout,
+                toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // cambiar color del ícono hamburguesa a blanco
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
-
-        // items del menú lateral de menu_drawer
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        // Opcional: manejar clics en el menú
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
                 // Aca se agregan navegación a las activities
                 if (id == R.id.nav_home) {
-                    startActivity(new Intent(DashboardActivity.this, HomeActivity.class));
+                    startActivity(new Intent(WebActivity.this, HomeActivity.class));
                 } else if (id == R.id.nav_product) {
-                    Intent intent = new Intent(DashboardActivity.this, ProductsActivity.class);
+                    Intent intent = new Intent(WebActivity.this, ProductsActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_cuota) {
-                    Toast.makeText(DashboardActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WebActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_perfil) {
-                    startActivity(new Intent(DashboardActivity.this, ProfileActivity.class));
+                    startActivity(new Intent(WebActivity.this, ProfileActivity.class));
                 } else if (id == R.id.nav_accesibilidad) {
-                    Intent intent = new Intent(DashboardActivity.this, AccessibilityActivity.class);
+                    Intent intent = new Intent(WebActivity.this, AccessibilityActivity.class);
                     startActivity(intent);
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;
                 } else if (id == R.id.nav_contact) {
-                    Intent intent = new Intent(DashboardActivity.this, ContactActivity.class);
+                    Intent intent = new Intent(WebActivity.this, ContactActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_about) {
-                    startActivity(new Intent(DashboardActivity.this, AboutUsActivity.class));
+                    startActivity(new Intent(WebActivity.this, AboutUsActivity.class));
                 } else if (id == R.id.nav_web) {
-                    Intent intent = new Intent(DashboardActivity.this, WebActivity.class);
+                    Intent intent = new Intent(WebActivity.this, WebActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_logout) {
                     //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
@@ -110,15 +91,20 @@ public class DashboardActivity extends AppCompatActivity {
                     return true;
                 }
 
-                drawerLayout.closeDrawer(GravityCompat.START);
+                drawerLayout.closeDrawers();
                 return true;
             }
-
         });
-        //fin menu lateral
 
+        // Botón que abre el repositorio web
+        ImageButton btnWeb = findViewById(R.id.btnWeb);
+        btnWeb.setOnClickListener(view -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(REPO_URL));
+            startActivity(browserIntent);
+        });
     }
-    //cerrar seison
+
+    //cerrar sesion
     private void logoutUser(){
         try{
             MasterKey masterKey=new MasterKey.Builder(this)
@@ -147,18 +133,4 @@ public class DashboardActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void applyThemeFromPrefs() { //accesibilidad
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isAccessible = prefs.getBoolean("accessible_theme", false);
-
-        if (isAccessible) {
-            setTheme(R.style.AppTheme_Accessible);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else {
-            setTheme(R.style.Theme_Cooperadora_escuela);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        }
-    }
-
 }

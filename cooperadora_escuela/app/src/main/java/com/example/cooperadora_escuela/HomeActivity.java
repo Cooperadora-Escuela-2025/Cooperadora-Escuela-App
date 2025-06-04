@@ -92,23 +92,28 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                //se llaman los items que se quieran agregar
+                // Aca se agregan navegación a las activities
                 if (id == R.id.nav_home) {
-                    Toast.makeText(HomeActivity.this, "Inicio", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_product) {
-                    Toast.makeText(HomeActivity.this, "Productos", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, ProductsActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.nav_cuota) {
                     Toast.makeText(HomeActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_perfil) {
-                    Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                    startActivity(intent);
-
-                }else if (id == R.id.nav_accesibilidad) {
+                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                } else if (id == R.id.nav_accesibilidad) {
                     Intent intent = new Intent(HomeActivity.this, AccessibilityActivity.class);
                     startActivity(intent);
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;
-
+                } else if (id == R.id.nav_contact) {
+                    Intent intent = new Intent(HomeActivity.this, ContactActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.nav_about) {
+                    startActivity(new Intent(HomeActivity.this, AboutUsActivity.class));
+                } else if (id == R.id.nav_web) {
+                    Intent intent = new Intent(HomeActivity.this, WebActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.nav_logout) {
                     //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
                     logoutUser(); // llamamos a salir
@@ -149,7 +154,7 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    //cerrar seison
+    //cerrar sesion
     private void logoutUser(){
         try{
             MasterKey masterKey=new MasterKey.Builder(this)

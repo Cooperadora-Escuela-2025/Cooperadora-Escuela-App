@@ -3,6 +3,8 @@ package com.example.cooperadora_escuela.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 public class Product implements Parcelable {
 
     private int id;
@@ -82,5 +84,26 @@ public class Product implements Parcelable {
         parcel.writeString(name);
         parcel.writeDouble(price);
         parcel.writeString(image);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        com.example.cooperadora_escuela.models.Product product = (com.example.cooperadora_escuela.models.Product) o;
+        return id == product.id &&
+                Double.compare(product.price, price) == 0 &&
+                image == product.image &&
+                name.equals(product.name);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", imageResource=" + image +
+                '}';
     }
 }

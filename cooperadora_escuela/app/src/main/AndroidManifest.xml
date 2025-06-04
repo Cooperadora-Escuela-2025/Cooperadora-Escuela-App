@@ -25,16 +25,8 @@
             android:name=".ContactActivity"
             android:exported="false" />
 
-
-
-
-
-
         <activity
             android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.ProducActivity"
             android:exported="false" />
 
         <activity
@@ -65,6 +57,9 @@
         <activity
             android:name=".CheckoutActivity"
             android:exported="false" />
+
+        <activity android:name=".WebActivity" />
+
         <activity
             android:name=".EditProductActivity"
             android:exported="false" />

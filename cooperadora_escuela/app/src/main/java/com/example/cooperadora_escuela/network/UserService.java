@@ -1,6 +1,5 @@
 package com.example.cooperadora_escuela.network;
-import com.example.cooperadora_escuela.Product;
-import com.example.cooperadora_escuela.models.Produ;
+import com.example.cooperadora_escuela.models.Product;
 import com.example.cooperadora_escuela.network.auth.LoginRequest;
 import com.example.cooperadora_escuela.network.auth.LoginResponse;
 import com.example.cooperadora_escuela.network.auth.RegisterRequest;
