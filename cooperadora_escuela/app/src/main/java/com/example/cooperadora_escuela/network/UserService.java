@@ -32,7 +32,8 @@ public interface UserService {
     @PUT("profile/")
     Call<ProfileResponse> updateProfile(@Header("Authorization") String token, @Body ProfileRequest request);
 
-
+//    @GET("/products/")
+//    Call<List<Produ>> getProducts();
 
 
     @GET("/products/")
