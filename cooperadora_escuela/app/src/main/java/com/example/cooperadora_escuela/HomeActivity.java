@@ -143,15 +143,18 @@ public class HomeActivity extends AppCompatActivity {
         btnActivities.setOnClickListener(v ->{
             Intent intent =new Intent(HomeActivity.this,ActivitiesActivity.class);
             startActivity(intent);
-
-                showToast((String) btnActivities.getContentDescription());
+            showToast((String) btnActivities.getContentDescription());
+        });
+        btnEvents.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ProductsActivity.class);
+            startActivity(intent);
+            showToast((String) btnEvents.getContentDescription());
         });
 
 
 
-
-        btnEvents.setOnClickListener(v ->
-                showToast((String) btnEvents.getContentDescription()));
+//        btnEvents.setOnClickListener(v ->
+//                showToast((String) btnEvents.getContentDescription()));
 
         btnNew1.setOnClickListener(v ->
                 showToast((String) btnNew1.getContentDescription()));

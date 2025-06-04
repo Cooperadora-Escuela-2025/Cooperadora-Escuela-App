@@ -18,7 +18,7 @@
     <color name="button_text">#FFFFFF</color>
     <color name="input_background">#FFFFFF</color>
     <color name="input_stroke">#62000000</color>
-    <color name="purple_500">#6200EE</color>
+    <color name="purple_500">#30a0e4</color>
     <color name="purple_700">#3700B3</color>
     <color name="button_primary">#6200EE</color>
     <color name="button_secondary">#3700B3</color>
