@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_cart"
+        android:icon="@drawable/ic_cart"
+        android:title="@string/cart"
+        app:showAsAction="always" />
+
     <!--LOS ITEMS QUE VA A TENER EL MENU LATERAL-->
     <item
         android:id="@+id/nav_home"
@@ -11,10 +19,6 @@
         android:title="Productos"
         android:icon="@drawable/ic_product" />
 
-    <item
-        android:id="@+id/nav_cuota"
-        android:title="Abonar cooperadora"
-        android:icon="@drawable/ic_cuota" />
 
     <item
         android:id="@+id/nav_perfil"
@@ -39,7 +43,7 @@
     <item
         android:id="@+id/nav_web"
         android:title="Nuestra Web"
-        android:icon="@drawable/ic_about_selector" />
+        android:icon="@drawable/ic_web" />
 
     <item
         android:id="@+id/nav_logout"

@@ -69,8 +69,6 @@ public class AboutUsActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_product) {
                     Intent intent = new Intent(AboutUsActivity.this, ProductsActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.nav_cuota) {
-                    Toast.makeText(AboutUsActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(AboutUsActivity.this, ProfileActivity.class));
                 } else if (id == R.id.nav_accesibilidad) {

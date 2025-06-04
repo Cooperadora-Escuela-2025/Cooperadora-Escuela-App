@@ -97,9 +97,11 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_product) {
                     Intent intent = new Intent(HomeActivity.this, ProductsActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.nav_cuota) {
-                    Toast.makeText(HomeActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.nav_perfil) {
+                } else if (id == R.id.action_cart) {
+                    Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                    startActivity(intent);
+                }
+                else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
                 } else if (id == R.id.nav_accesibilidad) {
                     Intent intent = new Intent(HomeActivity.this, AccessibilityActivity.class);

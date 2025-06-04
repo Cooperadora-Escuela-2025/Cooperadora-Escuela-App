@@ -32,6 +32,10 @@ public class Cart {
             listener.onProductAdded(product, products.size() - 1);
         }
     }
+    public int getTotalCount() {
+        return products.size();
+    }
+
 
     public void removeProduct(Product product) {
         if (product == null) return;

@@ -57,6 +57,9 @@ public class ProductsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
 
+    private TextView cartBadgeTextView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,8 +88,6 @@ public class ProductsActivity extends AppCompatActivity {
             } else if (id == R.id.nav_product) {
                 Intent intent = new Intent(ProductsActivity.this, ProductsActivity.class);
                 startActivity(intent);
-            } else if (id == R.id.nav_cuota) {
-                Toast.makeText(ProductsActivity.this, "Cuota", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.nav_perfil) {
                 startActivity(new Intent(ProductsActivity.this, ProfileActivity.class));
             } else if (id == R.id.nav_accesibilidad) {
@@ -126,7 +127,6 @@ public class ProductsActivity extends AppCompatActivity {
                 });
 
         fetchProductsFromApi();
-        setupViewCartButton();
     }
 
     private void fetchProductsFromApi() {
@@ -177,22 +177,11 @@ public class ProductsActivity extends AppCompatActivity {
             btnAddToCart.setOnClickListener(v -> {
                 cart.addProduct(product);
                 Toast.makeText(this, product.getName() + " agregado al carrito", Toast.LENGTH_SHORT).show();
+                updateCartBadge(); // << actualiza el contador del ícono
             });
+
 
             productsContainer.addView(itemView);
-        }
-    }
-
-    private void setupViewCartButton() {
-        Button viewCartButton = findViewById(R.id.viewCartButton);
-        if (viewCartButton != null) {
-            viewCartButton.setOnClickListener(v -> {
-                if (cart.getProducts().isEmpty()) {
-                    Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show();
-                } else {
-                    startActivity(new Intent(this, CartActivity.class));
-                }
-            });
         }
     }
 
@@ -205,17 +194,59 @@ public class ProductsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.products_menu, menu);
+
+        // Obtener el ítem del menú con actionLayout
+        MenuItem cartItem = menu.findItem(R.id.menu_view_cart);
+        View actionView = cartItem.getActionView();
+
+        // Obtener el TextView del contador
+        cartBadgeTextView = actionView.findViewById(R.id.cart_badge);
+
+        // Hacer clic en el ícono del carrito
+        actionView.setOnClickListener(v -> {
+            if (cart.getProducts().isEmpty()) {
+                Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show();
+            }
+            startActivity(new Intent(this, CartActivity.class));
+        });
+
+        // Actualizar contador
+        updateCartBadge();
         return true;
     }
 
+    private void updateCartBadge() {
+        if (cartBadgeTextView != null) {
+            int count = cart.getTotalCount(); // Este método debe existir en tu clase Cart
+            if (count == 0) {
+                cartBadgeTextView.setVisibility(View.GONE);
+            } else {
+                cartBadgeTextView.setText(String.valueOf(count));
+                cartBadgeTextView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_add_product) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_add_product) {
             launchAddProductActivity();
             return true;
+        } else if (id == R.id.menu_view_cart) {
+            if (cart.getProducts().isEmpty()) {
+                Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(this, CartActivity.class));
+            }
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
+
 
     private void launchAddProductActivity() {
         Intent intent = new Intent(this, EditProductActivity.class);

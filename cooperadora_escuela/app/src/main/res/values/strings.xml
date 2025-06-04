@@ -40,6 +40,7 @@
     <string name="desc_product4">Remera escolar</string>
 
     <!-- Carrito -->
+    <string name="cart">Carrito</string>
     <string name="cart_title">Tu Carrito</string>
     <string name="cart_content_description">Lista de productos en el carrito</string>
     <string name="checkout_button">Realizar Compra</string>
