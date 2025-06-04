@@ -20,6 +20,7 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
 import com.example.cooperadora_escuela.ui.AccessibilityActivity;
+import com.example.cooperadora_escuela.ui.ActivitiesActivity;
 import com.example.cooperadora_escuela.ui.DashboardActivity;
 import com.example.cooperadora_escuela.ui.LoginActivity;
 import com.example.cooperadora_escuela.ui.ProfileActivity;
@@ -139,8 +140,15 @@ public class HomeActivity extends AppCompatActivity {
         Button btnNew1 = findViewById(R.id.btn_new1);
         Button btnNew2 = findViewById(R.id.btn_new2);
 
-        btnActivities.setOnClickListener(v ->
-                showToast((String) btnActivities.getContentDescription()));
+        btnActivities.setOnClickListener(v ->{
+            Intent intent =new Intent(HomeActivity.this,ActivitiesActivity.class);
+            startActivity(intent);
+
+                showToast((String) btnActivities.getContentDescription());
+        });
+
+
+
 
         btnEvents.setOnClickListener(v ->
                 showToast((String) btnEvents.getContentDescription()));

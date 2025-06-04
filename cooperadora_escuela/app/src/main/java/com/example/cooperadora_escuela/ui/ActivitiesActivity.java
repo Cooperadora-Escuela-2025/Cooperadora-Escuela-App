@@ -4,17 +4,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
@@ -24,37 +22,50 @@ import com.example.cooperadora_escuela.HomeActivity;
 import com.example.cooperadora_escuela.ProductsActivity;
 import com.example.cooperadora_escuela.R;
 import com.example.cooperadora_escuela.WebActivity;
+import com.example.cooperadora_escuela.models.Activities;
+import com.example.cooperadora_escuela.models.ActivitiesAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AccessibilityActivity extends AppCompatActivity {
+public class ActivitiesActivity extends AppCompatActivity {
 
-    private SharedPreferences sharedPreferences;
-    private TextView miTextView;
+    private RecyclerView recyclerActividades;
+    private ActivitiesAdapter adapter;
+    private List<Activities> listaActividades;
     private androidx.drawerlayout.widget.DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accessibility);
+        setContentView(R.layout.activity_activities);
 
-        miTextView = findViewById(R.id.tvInstructions);
-        applyFontSizeIfNeeded();
+        recyclerActividades = findViewById(R.id.recyclerActividades);
+        recyclerActividades.setLayoutManager(new LinearLayoutManager(this));
 
+        listaActividades = new ArrayList<>();
+        listaActividades.add(new Activities("Feria de Ciencias", "Presentación de proyectos científicos"));
+        listaActividades.add(new Activities("Día del Estudiante", "Juegos y actividades recreativas para todos"));
+        listaActividades.add(new Activities("Obra de Teatro", "Función teatral a cargo de alumnos de 5to año"));
+        listaActividades.add(new Activities("Torneo de Fútbol", "Competencia deportiva entre cursos"));
+        listaActividades.add(new Activities("Excursión", "Salida educativa a un museo local"));
 
+        adapter = new ActivitiesAdapter(listaActividades);
+        recyclerActividades.setAdapter(adapter);
 
-        // Toolbar con flecha atrás
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navView = findViewById(R.id.nav_view);
@@ -75,24 +86,24 @@ public class AccessibilityActivity extends AppCompatActivity {
 
                 // Aca se agregan navegación a las activities
                 if (id == R.id.nav_home) {
-                    startActivity(new Intent(AccessibilityActivity .this, HomeActivity.class));
+                    startActivity(new Intent(ActivitiesActivity.this, HomeActivity.class));
                 } else if (id == R.id.nav_product) {
-                    Intent intent = new Intent(AccessibilityActivity .this, ProductsActivity.class);
+                    Intent intent = new Intent(ActivitiesActivity.this, ProductsActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_perfil) {
-                    startActivity(new Intent(AccessibilityActivity .this, ProfileActivity.class));
+                    startActivity(new Intent(ActivitiesActivity.this, ProfileActivity.class));
                 } else if (id == R.id.nav_accesibilidad) {
-                    Intent intent = new Intent(AccessibilityActivity .this, AccessibilityActivity.class);
+                    Intent intent = new Intent(ActivitiesActivity.this, AccessibilityActivity.class);
                     startActivity(intent);
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;
                 } else if (id == R.id.nav_contact) {
-                    Intent intent = new Intent(AccessibilityActivity .this, ContactActivity.class);
+                    Intent intent = new Intent(ActivitiesActivity.this, ContactActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_about) {
-                    startActivity(new Intent(AccessibilityActivity .this, AboutUsActivity.class));
+                    startActivity(new Intent(ActivitiesActivity.this, AboutUsActivity.class));
                 } else if (id == R.id.nav_web) {
-                    Intent intent = new Intent(AccessibilityActivity .this, WebActivity.class);
+                    Intent intent = new Intent(ActivitiesActivity.this, WebActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.nav_logout) {
                     //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
@@ -104,48 +115,6 @@ public class AccessibilityActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
-       // SwitchCompat switchTheme = findViewById(R.id.switch_accessible_theme);
-        SwitchCompat switchFontSize = findViewById(R.id.switch_font_size);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        switchFontSize.setChecked(prefs.getBoolean("increase_font_size", false));
-
-
-        switchFontSize.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            prefs.edit().putBoolean("increase_font_size", isChecked).apply();
-            AppCompatDelegate.setDefaultNightMode(
-                    isChecked ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            );
-
-            recreate();  // reiniciar  para que tome el cambio
-        });
-
-//        SwitchCompat switchFontSize = findViewById(R.id.switch_increase_font_size);
-//        switchFontSize.setChecked(prefs.getBoolean("increase_font_size", false));
-//
-//        switchFontSize.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            prefs.edit().putBoolean("increase_font_size", isChecked).apply();
-//            Toast.makeText(
-//                    this,
-//                    "Para aplicar el tamaño de fuente, por favor reiniciá la aplicación.",
-//                    Toast.LENGTH_LONG
-//            ).show();
-//            recreate();
-//        });
-
-
-
-        // Poner texto de instrucciones (podés personalizarlo)
-        String instrucciones = "Bienvenido a la app!\n\n" +
-                "1. Para modificar tu perfil, ve a la sección Perfil.\n" +
-                "2. Para hacer reservas, ingresa a la sección Reservas.\n" +
-                "3. Usa el switch para cambiar el tamaño de letra si lo necesitas.\n" +
-                "4. Si tenés dudas, contactanos desde la sección Contacto.\n\n" +
-                "¡Gracias por usar la app!";
-        miTextView.setText(instrucciones);
-
     }
     //cerrar sesion
     private void logoutUser(){
@@ -176,43 +145,4 @@ public class AccessibilityActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show();
         }
     }
-
-//    @Override  // Manejar flecha atrás en Toolbar
-//    public boolean onSupportNavigateUp() {
-//        onBackPressed();
-//        return true;
-//    }
-
-    private void  applyFontSizeIfNeeded() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-       // boolean isAccessible = prefs.getBoolean("accessible_theme", false);
-        boolean increaseFont = prefs.getBoolean("increase_font_size", false);
-
-        if (increaseFont) {
-            float newSize = 25f;  // o el tamaño que quieras
-
-            miTextView.setTextSize(newSize);
-        }
-
-//        if (isAccessible) {
-//            setTheme(R.style.AppTheme_Accessible);
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//        } else {
-//            setTheme(R.style.Theme_Cooperadora_escuela);
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-//        }
-
-//
-//        if (increaseFont) {
-//            setTheme(R.style.AppTheme_Accessible_FontLarge);
-//        } else if (isAccessible) {
-//            setTheme(R.style.AppTheme_Accessible);
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//        } else {
-//            setTheme(R.style.Theme_Cooperadora_escuela);
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-//        }
-    }
-
 }
-
