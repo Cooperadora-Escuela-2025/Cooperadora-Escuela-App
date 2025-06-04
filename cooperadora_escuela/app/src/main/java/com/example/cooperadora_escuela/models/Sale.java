@@ -1,6 +1,8 @@
 package com.example.cooperadora_escuela.models;
 
-public class Sale {
+import java.io.Serializable;
+
+public class Sale implements Serializable {
     private int id;
     private String firstName;
     private String lastName;

@@ -1,18 +1,26 @@
 package com.example.cooperadora_escuela;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cooperadora_escuela.ui.PurchaseReceiptActivity;
 import com.example.cooperadora_escuela.models.Sale;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import com.example.cooperadora_escuela.ui.PurchaseReceiptActivity;
+
+
 
 public class CheckoutActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
@@ -94,20 +102,21 @@ public class CheckoutActivity extends AppCompatActivity {
         if (saleId != -1) {
             showToast("Compra registrada exitosamente");
             Cart.getInstance().clearCart();
+
+            Intent intent = new Intent(this, PurchaseReceiptActivity.class);
+            intent.putExtra("sale", (Serializable) sale);
+            startActivity(intent);
             finish();
         } else {
             showToast("Error al registrar la compra");
         }
+
     }
 
     private String getPaymentMethod(int selectedId) {
         if (selectedId == R.id.cashRadioButton) {
             return "Efectivo";
-        } else if (selectedId == R.id.debitCardRadioButton) {
-            return "Tarjeta Débito";
-        } else if (selectedId == R.id.creditCardRadioButton) {
-            return "Tarjeta Crédito";
-        } else if (selectedId == R.id.mercadoPagoRadioButton) {
+        }  else if (selectedId == R.id.mercadoPagoRadioButton) {
             return "Mercado Pago";
         }
         return "Desconocido";
