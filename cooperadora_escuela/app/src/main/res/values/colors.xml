@@ -1,0 +1,29 @@
+<resources>
+    <!-- Colores básicos -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_secondary">#62000000</color>
+
+    <!-- Colores principales -->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="error">#FF0000</color>
+    <color name="sombreado">#494e53</color>
+    <color name="fondo_perfil">#e7e7e7</color>
+
+    <!-- Colores de la aplicación -->
+    <color name="background">#FAFAFA</color>
+    <color name="button_text">#FFFFFF</color>
+    <color name="input_background">#FFFFFF</color>
+    <color name="input_stroke">#62000000</color>
+    <color name="purple_500">#30a0e4</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="button_primary">#6200EE</color>
+    <color name="button_secondary">#3700B3</color>
+    <color name="text_primary">#000000</color>
+
+
+
+</resources>

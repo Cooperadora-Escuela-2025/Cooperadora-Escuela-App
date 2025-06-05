@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_cart"
+        android:icon="@drawable/ic_cart"
+        android:title="@string/cart"
+        app:showAsAction="always" />
+
+    <!--LOS ITEMS QUE VA A TENER EL MENU LATERAL-->
+    <item
+        android:id="@+id/nav_home"
+        android:title="Inicio"
+        android:icon="@drawable/ic_home" />
+
+    <item
+        android:id="@+id/nav_product"
+        android:title="Productos"
+        android:icon="@drawable/ic_product" />
+
+
+    <item
+        android:id="@+id/nav_perfil"
+        android:title="Perfil"
+        android:icon="@drawable/ic_user" />
+
+    <item
+        android:id="@+id/nav_accesibilidad"
+        android:title="Accesibilidad"
+        android:icon="@drawable/ic_accessibility" />
+
+    <item
+        android:id="@+id/nav_contact"
+        android:title="Contacto"
+        android:icon="@drawable/ic_contact" />
+
+    <item
+        android:id="@+id/nav_about"
+        android:title="Sobre Nosotros"
+        android:icon="@drawable/ic_about_selector" />
+
+    <item
+        android:id="@+id/nav_web"
+        android:title="Nuestra Web"
+        android:icon="@drawable/ic_web" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/ic_logout" />
+
+</menu>

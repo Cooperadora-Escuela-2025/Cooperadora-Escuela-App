@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tamaños de texto (más grandes) -->
+    <dimen name="text_size_normal">21sp</dimen>
+    <dimen name="text_size_title">28sp</dimen>
+</resources>

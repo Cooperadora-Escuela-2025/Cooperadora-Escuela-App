@@ -1,0 +1,11 @@
+# Archivos de Android Studio
+.idea/
+*.iml
+
+# Archivos de sistema
+.DS_Store
+*.log
+
+# Archivos de compilación
+/build/
+.gradle/

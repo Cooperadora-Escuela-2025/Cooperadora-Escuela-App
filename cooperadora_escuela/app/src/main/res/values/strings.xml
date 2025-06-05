@@ -1,0 +1,133 @@
+<resources>
+    <!-- General -->
+    <string name="app_name">Cooperadora Escuela</string>
+
+    <!--dasboard-->
+<!--    <string name="navigation_drawer_open">Abrir menú</string>-->
+<!--    <string name="navigation_drawer_close">Cerrar menú</string>-->
+
+
+    <!-- Login -->
+    <string name="hint_email">Correo</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_login">INICIAR SESIÓN</string>
+    <string name="btn_star">INGRESAR</string>
+    <string name="btn_message">¿No tenés una cuenta? Registrate</string>
+
+    <!-- registro -->
+    <string name="hint_password2">Confirmar Contraseña</string>
+    <string name="t_register">REGISTRO</string>
+    <string name="register">REGISTRARSE</string>
+    <string name="btn_message_register">Ya tenés una cuenta? Iniciá sesión</string>
+
+    <!-- perfil -->
+    <string name="hint_turno">Turno</string>
+    <string name="hint_grado">Año/Curso</string>
+    <string name="t_perfil">PERFIL</string>
+    <string name="hint_tel">Teléfono</string>
+
+
+    <!-- Productos -->
+    <string name="products_title">LISTA DE PRODUCTOS</string>
+    <string name="view_cart">Ver Carrito</string>
+    <string name="add_to_cart">Agregar al carrito</string>
+    <string name="agregar_producto">Agregar producto</string>
+
+    <!-- Product descriptions -->
+    <string name="desc_product1">Libreta de calificaciones</string>
+    <string name="desc_product2">Pago de matricula</string>
+    <string name="desc_product3">Pago mensual</string>
+    <string name="desc_product4">Remera escolar</string>
+
+    <!-- Carrito -->
+    <string name="cart">Carrito</string>
+    <string name="cart_title">Tu Carrito</string>
+    <string name="cart_content_description">Lista de productos en el carrito</string>
+    <string name="checkout_button">Realizar Compra</string>
+    <string name="back_to_products">Volver a productos</string>
+    <string name="empty_cart_message">El carrito está vacío</string>
+    <string name="remove_item">Eliminar producto</string>
+    <string name="quantity_label">Cantidad: %d</string>
+    <string name="total_label">Total: %s</string>
+    <string name="total_content_description">Total a pagar: %s</string>
+    <string name="product_image_description">Imagen del producto</string>
+    <string name="price_content_description">Precio: %s</string>
+    <string name="cart_item_content_description">Producto del carrito</string>
+
+    <!-- Checkout -->
+    <string name="checkout_title">Completar la compra</string>
+    <string name="checkout_subtitle">Datos para finalizar la compra</string>
+    <string name="personal_info_title">Información Personal</string>
+    <string name="payment_method_title">Método de Pago</string>
+    <string name="confirm_purchase">Confirmar Compra</string>
+    <string name="back_to_cart">Volver al Carrito</string>
+    <string name="download_excel">Descargar Excel</string>
+    <string name="total_price">Total: %s</string>
+    <string name="fill_all_fields">Por favor complete todos los campos</string>
+    <string name="select_payment_method">Por favor seleccione un método de pago</string>
+    <string name="purchase_success">Compra realizada con éxito</string>
+    <string name="invalid_dni">El DNI debe contener exactamente 8 dígitos</string>
+
+    <!-- Formularios -->
+    <string name="hint_first_name">Nombre</string>
+    <string name="hint_last_name">Apellido</string>
+    <string name="hint_dni">DNI</string>
+
+    <!-- Métodos de pago -->
+    <string name="payment_cash">Efectivo</string>
+    <string name="payment_debit_card">Tarjeta de Débito</string>
+    <string name="payment_credit_card">Tarjeta de Crédito</string>
+    <string name="payment_mercado_pago">Mercado Pago</string>
+
+    <!-- Add to cart descriptions -->
+    <string name="add_to_cart_desc_product1">Agregar Libreta Escolar al carrito</string>
+    <string name="add_to_cart_desc_product2">Agregar Pago Matrícula al carrito</string>
+    <string name="add_to_cart_desc_product3">Agregar Pago Mensual al carrito</string>
+    <string name="add_to_cart_desc_product4">Agregar Remera Escolar al carrito</string>
+
+    <!-- Edit product -->
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+    <string name="product_name_default">Nombre del producto</string>
+    <string name="product_price_default">Precio</string>
+
+    <string name="edit">Editar</string>
+    <string name="edit_product">Editar producto</string>
+    <string name="edit_product_desc">Editar detalles del producto</string>
+    <string name="add_to_cart_desc">Agregar producto al carrito</string>
+
+
+    <!-- Descripciones específicas para cada producto -->
+    <string name="edit_product_desc_product1">Editar Libreta Escolar</string>
+    <string name="edit_product_desc_product2">Editar Pago Matrícula</string>
+    <string name="edit_product_desc_product3">Editar Pago Mensual</string>
+    <string name="edit_product_desc_product4">Editar Remera Escolar</string>
+    <string name="view_cart_desc">Ver productos en el carrito</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_products">Productos</string>
+    <string name="menu_contact">Contacto</string>
+    <string name="menu_about">Quiénes Somos</string>
+    <string name="menu_app">Nuestra App</string>
+    <string name="logo_escuela">Logo de la escuela</string>
+    <string name="slogan_escuela">Educando para el futuro</string>
+    <string name="welcome_title">Bienvenido</string>
+    <string name="actividades_title">Actividades Escolares</string>
+    <string name="eventos_title">Productos escolares</string>
+    <string name="ver_mas">Ver más</string>
+    <string name="desc_imagen_escuela">Imagen de actividades escolares</string>
+    <string name="desc_imagen_eventos">Imagen de eventos escolares</string>
+
+    <string name="desc_imagen_nueva1">Descripción de la nueva imagen 1</string>
+    <string name="desc_imagen_nueva2">Descripción de la nueva imagen 2</string>
+    <string name="nueva1_title">Abonar cuotas</string>
+    <string name="nueva2_title">Anuncios Destacados</string>
+
+    <string name="btn_activities_desc">Ver más sobre actividades escolares</string>
+    <string name="btn_events_desc">Ver más sobre eventos escolares</string>
+    <string name="btn_new1_desc">Ver más sobre nueva sección 1</string>
+    <string name="btn_new2_desc">Ver más sobre nueva sección 2</string>
+
+
+</resources>
