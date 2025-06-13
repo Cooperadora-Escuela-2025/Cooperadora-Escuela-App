@@ -3,7 +3,7 @@
 </p>
 
 <h2 align="center">
-  Proyecto App Cooperadora Escuela
+  Proyecto Aplicación Móvil Cooperadora Escuela
 </h2>
 <h2 align="center">
  Para la materia Práctica Profesionalizante - TSDWAD - 2025
