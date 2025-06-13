@@ -10,15 +10,7 @@
 </h2>
 
 ***
-Este proyecto tiene como objetivo desarrollar una plataforma web para una cooperadora escolar que permita a los padres y tutores gestionar diversos trámites relacionados con la escuela de manera fácil y eficiente.
-
-# Proyecto Cooperadora Escuela 2025
-
-
-
-
-|[Requerimientos](https://github.com/Cooperadora-Escuela-2025/.github/wiki/Requerimientos)|Requerimientos Funcionales y No Funcionales|
-
+Este proyecto tiene como objetivo desarrollar una aplicación móvil para una cooperadora escolar que permita a los padres y tutores gestionar diversos trámites relacionados con la escuela de manera fácil y eficiente, conectándose con el backend desarrollado en Django mediante Retrofit.
 
 ***
 
@@ -32,3 +24,22 @@ Este proyecto tiene como objetivo desarrollar una plataforma web para una cooper
 
 ***
 
+## 🛠️ Tecnologías utilizadas
+
+- **Lenguaje:** Java (Android nativo)
+- **IDE:** Android Studio
+- **Comunicación con backend:** Retrofit (consumo API REST Django)
+- **Backend:** Django 5 con Django REST Framework
+- **Base de datos:** MySQL (a través del backend)
+
+***
+
+## 📦 Instalación y ejecución
+
+### 🔹 Requisitos previos para la app móvil Android
+
+- Android Studio instalado (última versión estable recomendada)
+- Java Development Kit (JDK) 11 o superior
+- Emulador Android o dispositivo físico con modo desarrollador activado
+- Conexión a la API REST del backend Django para sincronización y pruebas
+- Retrofit (librería incluida en el proyecto para consumo de APIs REST)
