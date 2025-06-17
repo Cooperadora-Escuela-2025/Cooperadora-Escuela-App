@@ -1,4 +1,4 @@
-package com.example.cooperadora_escuela.models;
+package com.example.cooperadora_escuela.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cooperadora_escuela.R;
+import com.example.cooperadora_escuela.models.Activities;
 
 import java.util.List;
 

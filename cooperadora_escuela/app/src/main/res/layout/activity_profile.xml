@@ -6,7 +6,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="top">
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -23,7 +22,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/rectangular_gradient_background"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="Perfil de Usuario"
+            app:title="Perfil del Alumno"
             android:contentDescription="Perfil de usuario" />
 
         <!-- Contenido del perfil -->
@@ -57,8 +56,16 @@
                     android:text="Nombre"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     android:textColor="@color/black" />
+
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:layout_marginEnd="12dp"-->
+<!--                    android:src="@drawable/ic_edit"-->
+<!--                    android:contentDescription="Editar nombre" />-->
 
                 <EditText
                     android:id="@+id/etApellido"
@@ -68,6 +75,13 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Editar apellido" />
             </LinearLayout>
 
             <!-- Correo electrónico -->
@@ -90,98 +104,154 @@
                 android:orientation="vertical"
                 android:layout_margin="8dp">
 
+                <!-- Reutilizable: Campo con ícono de edición -->
                 <!-- DNI -->
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:boxBackgroundColor="@color/white"
-                    app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="@color/black"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
+                    android:gravity="center_vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etDni"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_dni"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight="1"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/black"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDni"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_dni"
+                            android:textColor="@color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_edit"
+                        android:contentDescription="Editar DNI" />
+                </LinearLayout>
 
                 <!-- Turno -->
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:boxStrokeColor="@color/black"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
+                    android:gravity="center_vertical">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/etTurno"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:inputType="none"
-                        android:hint="@string/hint_turno"
-                        android:focusable="false"
-                        android:cursorVisible="false"
-                        android:clickable="true"
-                        android:textColor="@color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/black"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/etTurno"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:inputType="none"
+                            android:hint="@string/hint_turno"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:clickable="true"
+                            android:textColor="@color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_edit"
+                        android:contentDescription="Editar turno" />
+                </LinearLayout>
 
                 <!-- Grado -->
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:boxStrokeColor="@color/black"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
+                    android:gravity="center_vertical">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/etGrado"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:inputType="none"
-                        android:hint="@string/hint_grado"
-                        android:focusable="false"
-                        android:cursorVisible="false"
-                        android:clickable="true"
-                        android:textColor="@color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/black"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/etGrado"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:inputType="none"
+                            android:hint="@string/hint_grado"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:clickable="true"
+                            android:textColor="@color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_edit"
+                        android:contentDescription="Editar grado" />
+                </LinearLayout>
 
                 <!-- Teléfono -->
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="@color/black"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
+                    android:gravity="center_vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTelefono"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_tel"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/black" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight="1"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/black"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTelefono"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_tel"
+                            android:textColor="@color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_edit"
+                        android:contentDescription="Editar teléfono" />
+                </LinearLayout>
 
                 <!-- Botón Guardar -->
                 <Button

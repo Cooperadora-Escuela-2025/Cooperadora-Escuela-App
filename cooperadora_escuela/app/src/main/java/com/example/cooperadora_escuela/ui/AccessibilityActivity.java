@@ -81,11 +81,11 @@ public class AccessibilityActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(AccessibilityActivity .this, ProfileActivity.class));
-                } else if (id == R.id.nav_accesibilidad) {
-                    Intent intent = new Intent(AccessibilityActivity .this, AccessibilityActivity.class);
-                    startActivity(intent);
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    return true;
+//                } else if (id == R.id.nav_accesibilidad) {
+//                    Intent intent = new Intent(AccessibilityActivity .this, AccessibilityActivity.class);
+//                    startActivity(intent);
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                    return true;
                 } else if (id == R.id.nav_contact) {
                     Intent intent = new Intent(AccessibilityActivity .this, ContactActivity.class);
                     startActivity(intent);

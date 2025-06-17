@@ -46,6 +46,28 @@ public class RegisterActivity extends AppCompatActivity {
             String password = etPassword.getText().toString();
             String password2 = etPassword2.getText().toString();
 
+            //campos vacíos
+            if (first_name.isEmpty() || last_name.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty()) {
+                idMessage.setText("Por favor, completá todos los campos.");
+                return;
+            }
+
+            if (first_name.length() < 3) {
+                idMessage.setText("El nombre debe tener al menos 2 letras.");
+                return;
+            }
+
+            if (last_name.length() < 3) {
+                idMessage.setText("El apellido debe tener al menos 2 letras.");
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                idMessage.setText("Por favor, ingresá un correo electrónico válido.");
+                return;
+            }
+
+
             if (!password.equals(password2)) {
                 idMessage.setText("Las contraseñas no coinciden");
                 return;
@@ -89,6 +111,9 @@ public class RegisterActivity extends AppCompatActivity {
         return null;
     }
 
+    private boolean isValidEmail(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
     private void registerUser(RegisterRequest request) {
         UserService authService = ApiUser.getRetrofit(RegisterActivity.this).create(UserService.class);

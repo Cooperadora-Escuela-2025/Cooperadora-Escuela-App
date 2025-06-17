@@ -85,48 +85,6 @@
 <!--                android:textStyle="bold"/>-->
 
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_activities"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:contentDescription="@string/desc_imagen_escuela"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/escuela_imagen1"/>
-
-                    <TextView
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="@string/actividades_title"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:id="@+id/utiles"/>
-
-                    <Button
-                        android:id="@+id/btn_activities"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:contentDescription="@string/btn_activities_desc"
-                        android:text="@string/ver_mas"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
 
             <androidx.cardview.widget.CardView
@@ -208,11 +166,55 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:backgroundTint="@color/colorPrimary"
-                        android:contentDescription="@string/btn_new1_desc"
+
                         android:text="@string/ver_mas"
                         android:textColor="@color/white"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_activities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:contentDescription="@string/desc_imagen_escuela"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/escuela_imagen1"/>
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/actividades_title"
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:id="@+id/utiles"/>
+
+                    <Button
+                        android:id="@+id/btn_activities"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:contentDescription="@string/btn_activities_desc"
+                        android:text="@string/ver_mas"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
 
 
             <androidx.cardview.widget.CardView

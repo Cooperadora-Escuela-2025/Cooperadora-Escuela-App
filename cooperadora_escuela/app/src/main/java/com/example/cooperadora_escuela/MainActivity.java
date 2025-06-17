@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnIrARegister=findViewById(R.id.btnRegister);
 
         btnIrALogin.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         });
 

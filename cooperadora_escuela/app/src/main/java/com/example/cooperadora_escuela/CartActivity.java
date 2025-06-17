@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
+import com.example.cooperadora_escuela.adapter.CartAdapter;
 import com.example.cooperadora_escuela.models.Product;
 import com.example.cooperadora_escuela.ui.AccessibilityActivity;
 import com.example.cooperadora_escuela.ui.LoginActivity;
@@ -66,11 +67,11 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
                 startActivity(intent);
             } else if (id == R.id.nav_perfil) {
                 startActivity(new Intent(CartActivity.this, ProfileActivity.class));
-            } else if (id == R.id.nav_accesibilidad) {
-                Intent intent = new Intent(CartActivity.this, AccessibilityActivity.class);
-                startActivity(intent);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+//            } else if (id == R.id.nav_accesibilidad) {
+//                Intent intent = new Intent(CartActivity.this, AccessibilityActivity.class);
+//                startActivity(intent);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return true;
             } else if (id == R.id.nav_contact) {
                 Intent intent = new Intent(CartActivity.this, ContactActivity.class);
                 startActivity(intent);

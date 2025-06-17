@@ -23,7 +23,7 @@ import com.example.cooperadora_escuela.ProductsActivity;
 import com.example.cooperadora_escuela.R;
 import com.example.cooperadora_escuela.WebActivity;
 import com.example.cooperadora_escuela.models.Activities;
-import com.example.cooperadora_escuela.models.ActivitiesAdapter;
+import com.example.cooperadora_escuela.adapter.ActivitiesAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
@@ -92,11 +92,11 @@ public class ActivitiesActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(ActivitiesActivity.this, ProfileActivity.class));
-                } else if (id == R.id.nav_accesibilidad) {
-                    Intent intent = new Intent(ActivitiesActivity.this, AccessibilityActivity.class);
-                    startActivity(intent);
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    return true;
+//                } else if (id == R.id.nav_accesibilidad) {
+//                    Intent intent = new Intent(ActivitiesActivity.this, AccessibilityActivity.class);
+//                    startActivity(intent);
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                    return true;
                 } else if (id == R.id.nav_contact) {
                     Intent intent = new Intent(ActivitiesActivity.this, ContactActivity.class);
                     startActivity(intent);

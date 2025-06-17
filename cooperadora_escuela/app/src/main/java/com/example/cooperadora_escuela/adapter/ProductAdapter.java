@@ -1,4 +1,4 @@
-package com.example.cooperadora_escuela.ui;
+package com.example.cooperadora_escuela.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

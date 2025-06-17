@@ -21,7 +21,9 @@ import androidx.security.crypto.MasterKey;
 
 import com.example.cooperadora_escuela.ui.AccessibilityActivity;
 import com.example.cooperadora_escuela.ui.ActivitiesActivity;
+import com.example.cooperadora_escuela.ui.CuotaActivity;
 import com.example.cooperadora_escuela.ui.DashboardActivity;
+import com.example.cooperadora_escuela.ui.HistoryActivity;
 import com.example.cooperadora_escuela.ui.LoginActivity;
 import com.example.cooperadora_escuela.ui.ProfileActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -104,11 +106,14 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
-                } else if (id == R.id.nav_accesibilidad) {
-                    Intent intent = new Intent(HomeActivity.this, AccessibilityActivity.class);
-                    startActivity(intent);
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    return true;
+                }else if (id == R.id.nav_history) {
+                    startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+
+//                } else if (id == R.id.nav_accesibilidad) {
+//                    Intent intent = new Intent(HomeActivity.this, AccessibilityActivity.class);
+//                    startActivity(intent);
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                    return true;
                 } else if (id == R.id.nav_contact) {
                     Intent intent = new Intent(HomeActivity.this, ContactActivity.class);
                     startActivity(intent);
@@ -139,6 +144,7 @@ public class HomeActivity extends AppCompatActivity {
         Button btnEvents = findViewById(R.id.btn_events);
         Button btnNew1 = findViewById(R.id.btn_new1);
         Button btnNew2 = findViewById(R.id.btn_new2);
+        //@+id/btn_new1@+id/btn_new1"
 
         btnActivities.setOnClickListener(v ->{
             Intent intent =new Intent(HomeActivity.this,ActivitiesActivity.class);
@@ -150,17 +156,23 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
             showToast((String) btnEvents.getContentDescription());
         });
+        btnNew1.setOnClickListener(v ->{
+            Toast.makeText(HomeActivity.this, "Click en btnNew1", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeActivity.this, CuotaActivity.class);
+            startActivity(intent);
+            //showToast((String) btnNew1.getContentDescription());
+        });
 
 
 
 //        btnEvents.setOnClickListener(v ->
 //                showToast((String) btnEvents.getContentDescription()));
 
-        btnNew1.setOnClickListener(v ->
-                showToast((String) btnNew1.getContentDescription()));
-
-        btnNew2.setOnClickListener(v ->
-                showToast((String) btnNew2.getContentDescription()));
+//        btnNew1.setOnClickListener(v ->
+//                showToast((String) btnNew1.getContentDescription()));
+//
+//        btnNew2.setOnClickListener(v ->
+//                showToast((String) btnNew2.getContentDescription()));
     }
 
     private void showToast(String message) {

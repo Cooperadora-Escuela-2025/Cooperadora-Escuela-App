@@ -93,8 +93,7 @@ public class PurchaseReceiptActivity extends AppCompatActivity {
                     startActivity(new Intent(PurchaseReceiptActivity.this, ProductsActivity.class));
                 } else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(PurchaseReceiptActivity.this, ProfileActivity.class));
-                } else if (id == R.id.nav_accesibilidad) {
-                    startActivity(new Intent(PurchaseReceiptActivity.this, AccessibilityActivity.class));
+
                 } else if (id == R.id.nav_contact) {
                     startActivity(new Intent(PurchaseReceiptActivity.this, ContactActivity.class));
                 } else if (id == R.id.nav_about) {

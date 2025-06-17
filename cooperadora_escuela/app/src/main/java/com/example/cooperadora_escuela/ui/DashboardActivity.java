@@ -89,11 +89,11 @@ public class DashboardActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(DashboardActivity.this, ProfileActivity.class));
-                } else if (id == R.id.nav_accesibilidad) {
-                    Intent intent = new Intent(DashboardActivity.this, AccessibilityActivity.class);
-                    startActivity(intent);
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    return true;
+//                } else if (id == R.id.nav_accesibilidad) {
+//                    Intent intent = new Intent(DashboardActivity.this, AccessibilityActivity.class);
+//                    startActivity(intent);
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                    return true;
                 } else if (id == R.id.nav_contact) {
                     Intent intent = new Intent(DashboardActivity.this, ContactActivity.class);
                     startActivity(intent);

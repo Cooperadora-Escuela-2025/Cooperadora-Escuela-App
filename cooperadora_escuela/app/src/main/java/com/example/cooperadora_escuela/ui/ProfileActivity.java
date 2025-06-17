@@ -82,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
         toggle.syncState();
 
 
-        // Obtener token seguro
+        // obtener token seguro
         try {
             MasterKey masterKey = new MasterKey.Builder(this)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -103,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
             token = "";
         }
 
-        // Referencias a views
+        // referencias a views
         etNombre = findViewById(R.id.etNombre);
         etApellido = findViewById(R.id.etApellido);
         etDni = findViewById(R.id.etDni);
@@ -113,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvEmail);
         btnGuardar = findViewById(R.id.btnGuardar);
 
-        // Adaptadores para AutoCompleteTextView
+        // adaptadores para AutoCompleteTextView
         String[] turnos = {"Mañana", "Tarde"};
         ArrayAdapter<String> adapterTurno = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, turnos);
@@ -124,10 +124,10 @@ public class ProfileActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, grados);
         etGrado.setAdapter(adapterGrado);
 
-        // Cargar perfil desde API
+        // cargar perfil desde API
         cargarPerfil();
 
-        // Guardar perfil al hacer click
+        // guardar perfil al hacer click
         btnGuardar.setOnClickListener(v -> actualizarPerfil());
 
         //llamar a los dropdown
@@ -147,7 +147,7 @@ public class ProfileActivity extends AppCompatActivity {
             recreate(); // para que tome el cambio de tamaño
         });
 
-        // Acciones del menú
+        // acciones del menú
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -161,11 +161,11 @@ public class ProfileActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
-                } else if (id == R.id.nav_accesibilidad) {
-                    Intent intent = new Intent(ProfileActivity.this, AccessibilityActivity.class);
-                    startActivity(intent);
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    return true;
+//                } else if (id == R.id.nav_accesibilidad) {
+//                    Intent intent = new Intent(ProfileActivity.this, AccessibilityActivity.class);
+//                    startActivity(intent);
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                    return true;
                 } else if (id == R.id.nav_contact) {
                     Intent intent = new Intent(ProfileActivity.this, ContactActivity.class);
                     startActivity(intent);
@@ -195,7 +195,7 @@ public class ProfileActivity extends AppCompatActivity {
 //    }
 
 
-    // Carga el perfil del usuario y llena los campos
+    // carga el perfil del usuario y llena los campos
     private void cargarPerfil() {
         if (token.isEmpty()) {
             Toast.makeText(this, "Token inválido", Toast.LENGTH_SHORT).show();
@@ -216,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity {
                     etDni.setText(profile.getDni());
                     tvEmail.setText(profile.getEmail());
 
-                    // Poner texto sin activar filtro para AutoCompleteTextView
+                    // poner texto sin activar filtro para AutoCompleteTextView
                     String turno = profile.getShift();
                     if ("Mañana".equalsIgnoreCase(turno) || "Tarde".equalsIgnoreCase(turno)) {
                         etTurno.setText(turno, false);
@@ -231,13 +231,37 @@ public class ProfileActivity extends AppCompatActivity {
                         etGrado.setText("", false);
                     }
 
+
                     etTelefono.setText(profile.getTelephone());
+                    // guardar los datos en SharedPreferences para el formulario del comprobante
+                    try {
+                        MasterKey masterKey = new MasterKey.Builder(ProfileActivity.this)
+                                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                                .build();
+
+                        SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
+                                ProfileActivity.this,
+                                "MyPrefs",
+                                masterKey,
+                                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                        );
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("first_name", profile.getFirst_name());
+                        editor.putString("last_name", profile.getLast_name());
+                        editor.putString("dni", profile.getDni());
+                        editor.apply(); // Guardamos los datos
+
+                    } catch (GeneralSecurityException | IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(ProfileActivity.this, "Error al guardar datos del perfil", Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
                     Toast.makeText(ProfileActivity.this, "Error al obtener perfil", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 Toast.makeText(ProfileActivity.this, "Fallo de conexión", Toast.LENGTH_SHORT).show();
@@ -245,7 +269,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    // Actualiza el perfil enviando datos al backend
+    // actualiza el perfil enviando datos al backend
     private void actualizarPerfil() {
         String nombre = etNombre.getText().toString().trim();
         String apellido = etApellido.getText().toString().trim();
@@ -255,7 +279,7 @@ public class ProfileActivity extends AppCompatActivity {
         String grado = etGrado.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
 
-        // Validaciones básicas
+        // validaciones básicas
         if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || email.isEmpty()) {
             Toast.makeText(this, "Por favor completa todos los campos obligatorios", Toast.LENGTH_SHORT).show();
             return;
