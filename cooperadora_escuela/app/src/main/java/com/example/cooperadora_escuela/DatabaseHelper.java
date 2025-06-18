@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRODUCT_NAME = "name";
     private static final String COLUMN_PRODUCT_PRICE = "price";
     private static final String COLUMN_PRODUCT_IMAGE = "image";
+    private static final String COLUMN_PRODUCT_QUANTITY = "quantity";
 
     // TABLA VENTAS
     private static final String TABLE_SALES = "sales";
@@ -54,7 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
                 + COLUMN_PRODUCT_PRICE + " REAL NOT NULL, "
-                + COLUMN_PRODUCT_IMAGE + " TEXT NOT NULL)";
+                + COLUMN_PRODUCT_IMAGE + " TEXT NOT NULL, "
+                + COLUMN_PRODUCT_QUANTITY + " INTEGER NOT NULL DEFAULT 0)";
 
         String CREATE_SALES_TABLE = "CREATE TABLE " + TABLE_SALES + " ("
                 + COLUMN_SALE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -76,16 +78,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // --------------------
-    // PRODUCTOS
-    // --------------------
-
     public long addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, product.getName());
         values.put(COLUMN_PRODUCT_PRICE, product.getPrice());
         values.put(COLUMN_PRODUCT_IMAGE, product.getImage());
+        values.put(COLUMN_PRODUCT_QUANTITY, product.getQuantity());
 
         long result = db.insert(TABLE_PRODUCTS, null, values);
         db.close();
@@ -115,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PRODUCT_NAME, product.getName());
         values.put(COLUMN_PRODUCT_PRICE, product.getPrice());
         values.put(COLUMN_PRODUCT_IMAGE, product.getImage());
+        values.put(COLUMN_PRODUCT_QUANTITY, product.getQuantity());
 
         int rows = db.update(TABLE_PRODUCTS, values,
                 COLUMN_PRODUCT_ID + " = ?",
@@ -143,11 +143,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int deleteProductById(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Eliminar producto de la base de datos local
         int rows = db.delete(TABLE_PRODUCTS, COLUMN_PRODUCT_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
 
-        // Eliminar producto en la API remota
         ProductApi productApi = Api.getRetrofit().create(ProductApi.class);
         productApi.deleteProductById(id).enqueue(new Callback<Void>() {
             @Override
@@ -168,7 +166,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows;
     }
 
-
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -180,7 +177,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUCT_NAME));
                 double price = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRODUCT_PRICE));
                 String image = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRODUCT_IMAGE));
-                productList.add(new Product(id, name, price, image));
+                int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PRODUCT_QUANTITY));
+
+                productList.add(new Product(id, name, price, image, quantity));
             } while (cursor.moveToNext());
         }
 
@@ -188,10 +187,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return productList;
     }
-
-    // --------------------
-    // VENTAS
-    // --------------------
 
     public long addSale(Sale sale) {
         SQLiteDatabase db = this.getWritableDatabase();

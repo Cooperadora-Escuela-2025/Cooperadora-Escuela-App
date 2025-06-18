@@ -20,7 +20,7 @@ import java.util.*;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     private final List<Product> productList;
-    private final Map<String, Integer> productQuantities;
+    private final Map<Product, Integer> productQuantities;
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
@@ -41,58 +41,45 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ProductDiffCallback(productList, newProducts));
 
         productList.clear();
-        productQuantities.clear();
+        productList.addAll(newProducts);
 
-        Map<String, Product> uniqueProducts = new HashMap<>();
+        productQuantities.clear();
         for (Product product : newProducts) {
-            if (product == null) continue;
-            String key = product.getName();
-            productQuantities.merge(key, 1, Integer::sum);
-            uniqueProducts.putIfAbsent(key, product);
+            int quantity = Cart.getInstance().getProductQuantity(product);
+            productQuantities.put(product, quantity);
         }
 
-        productList.addAll(uniqueProducts.values());
         diffResult.dispatchUpdatesTo(this);
     }
 
     public void addProduct(@NonNull Product product) {
-        String key = product.getName();
-        int position = findProductPosition(key);
+        int position = productList.indexOf(product);
 
-        int newCount = productQuantities.merge(key, 1, Integer::sum);
+        productQuantities.put(product, Cart.getInstance().getProductQuantity(product));
 
         if (position == -1) {
             productList.add(product);
             notifyItemInserted(productList.size() - 1);
         } else {
-            notifyItemChanged(position, newCount);
+            notifyItemChanged(position, productQuantities.get(product));
         }
     }
 
     public void removeProduct(@NonNull Product product) {
-        String key = product.getName();
-        int position = findProductPosition(key);
+        int position = productList.indexOf(product);
 
         if (position != -1) {
-            Integer newCount = productQuantities.compute(key, (k, count) -> (count == null || count <= 1) ? null : count - 1);
+            int quantity = Cart.getInstance().getProductQuantity(product);
 
-            if (newCount == null) {
+            if (quantity == 0) {
                 productList.remove(position);
+                productQuantities.remove(product);
                 notifyItemRemoved(position);
             } else {
-                notifyItemChanged(position, newCount);
+                productQuantities.put(product, quantity);
+                notifyItemChanged(position, quantity);
             }
         }
-    }
-
-    private int findProductPosition(String key) {
-        for (int i = 0; i < productList.size(); i++) {
-            Product p = productList.get(i);
-            if (p != null && p.getName().equals(key)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     @NonNull
@@ -108,8 +95,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Product product = productList.get(position);
         if (product == null) return;
 
-        String key = product.getName();
-        int quantity = productQuantities.getOrDefault(key, 1);
+        int quantity = productQuantities.getOrDefault(product, 1);
         holder.bind(product, quantity);
 
         holder.removeButton.setOnClickListener(v -> {
@@ -198,8 +184,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldList.get(oldItemPosition).getName()
-                    .equals(newList.get(newItemPosition).getName());
+            return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
         }
 
         @Override
@@ -208,3 +193,4 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
     }
 }
+

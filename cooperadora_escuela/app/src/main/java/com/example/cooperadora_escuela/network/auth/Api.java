@@ -6,10 +6,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //retrofit, coneccion al backend de django
 public class Api {
 
-    //si utilizan el emulador de android utilizar esta opcion y comentar la otra url
+    //si usan el emulador de android usar esta opcion y comentar la otra url
     private static final String BASE_URL = "http://10.0.2.2:8000/";
 
-    //si utilizan el celular usar esta url y comentar la otra url su Dirección IPv4
+    //si usan el celu usar esta url y comentar la otra url. su Dirección IPv4
 //    private static final String BASE_URL = "http://192tu direccion ipv4....:8000/";
     private static Retrofit retrofit;
 
