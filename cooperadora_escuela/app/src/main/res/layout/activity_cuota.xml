@@ -1,87 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#FFFFFF">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- CONTENIDO PRINCIPAL -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:text="Tipo de Cuota"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spinnerTipo"
+        <!-- AppBar con Toolbar -->
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:padding="12dp" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:text="Mes (solo si es mensual)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/rectangular_gradient_background"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title="Cuota"
+                app:titleTextColor="@android:color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <Spinner
-            android:id="@+id/spinnerMes"
+        <!-- Contenido scrollable -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:padding="12dp" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:padding="24dp"
+            android:background="#FFFFFF">
 
-        <TextView
-            android:text="Año"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/spinnerAnio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            />
+                <TextView
+                    android:text="Pagar Cuotas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnCrearCuota"
-            android:text="Crear Cuota"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF" />
-
-        <ImageView
-            android:id="@+id/imageViewQR"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="16dp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnDescargarPdf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Descargar comprobante PDF"
-            android:visibility="gone"
-            android:layout_marginTop="16dp" />
-
-        <Button
-            android:id="@+id/btnEnviarComprobante"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enviar comprobante"
-            android:layout_marginTop="16dp"/>
-
-    </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#6c757d"
+                    android:textSize="14sp"
+                    android:layout_marginTop="24dp"
+                    android:textAlignment="center"
+                    android:autoLink="email"
+                    android:importantForAccessibility="yes"
+                    android:text="En esta sección podés generar tu cuota correspondiente.\n\nAl hacerlo, tendrás la opción de descargar los datos bancarios para abonar o realizar el pago escaneando un código QR.\n\nLuego, recordá enviar el comprobante al correo cooperadora@escuela.edu.ar o a través del formulario disponible." />
 
 
-</ScrollView>
+
+                <!-- Sección con borde y padding -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/background_login_container"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:text="Tipo de Cuota"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerTipo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:padding="12dp" />
+
+                    <TextView
+                        android:text="Mes (solo si es mensual)"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerMes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:padding="12dp" />
+
+                    <TextView
+                        android:text="Año"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAnio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:padding="12dp" />
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/txtMonto"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Monto: $1"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:layout_marginTop="16dp" />-->
+
+                    <Button
+                        android:id="@+id/btnCrearCuota"
+                        android:text="Crear Cuota"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        style="@style/GradientButtonStyle"
+                        android:textColor="#FFFFFF" />
+
+                    <ImageView
+                        android:id="@+id/imageViewQR"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="16dp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnDescargarPdf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descargar comprobante PDF"
+                        android:visibility="gone"
+                        android:layout_marginTop="16dp"
+                        style="@style/GradientButtonStyle"/>
+
+                    <Button
+                        android:id="@+id/btnEnviarComprobante"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enviar comprobante"
+                        android:layout_marginTop="16dp"
+                        style="@style/GradientButtonStyle"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- MENÚ LATERAL -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/activity_menu_logo_name"
+        app:itemBackground="@drawable/menu_item_background"
+        app:menu="@menu/menu_drawer" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

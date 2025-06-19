@@ -113,13 +113,14 @@ public class LoginActivity extends AppCompatActivity {
 
                     Log.d("LOGIN", "Access: " + accessToken);
                     Log.d("LOGIN", "Usuario: " + loginResponse.getUser().getEmail());
+
                     try {
-                        // crear clave maestra
+                        // Crear clave maestra
                         MasterKey masterKey = new MasterKey.Builder(LoginActivity.this)
                                 .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                                 .build();
 
-                        // crear preferencias cifradas
+                        // Crear preferencias cifradas
                         SharedPreferences encryptedPrefs = EncryptedSharedPreferences.create(
                                 LoginActivity.this,
                                 "MyPrefs",
@@ -128,28 +129,30 @@ public class LoginActivity extends AppCompatActivity {
                                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
                         );
 
-                        // guardar los tokens de forma segura
+                        // Guardar los datos de forma segura
                         SharedPreferences.Editor editor = encryptedPrefs.edit();
                         editor.putString("access_token", accessToken);
                         editor.putString("refresh_token", refreshToken);
+                        editor.putString("first_name", loginResponse.getUser().getFirst_name());
+                        editor.putString("last_name", loginResponse.getUser().getLast_name());
+                        //editor.putString("dni", loginResponse.getUser().getDni());
                         editor.apply();
 
                         Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
 
-
-                        // ir a la pantalla de dashboard
+                        // Ir a la pantalla principal
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
 
                     } catch (GeneralSecurityException | IOException e) {
                         e.printStackTrace();
-                        Log.e("LOGIN", "Error al guardar los tokens: " + response.code());
-                        //Toast.makeText(LoginActivity.this, "Error al guardar los tokens", Toast.LENGTH_SHORT).show();
+                        Log.e("LOGIN", "Error al guardar los datos cifrados: " + e.getMessage());
+                        Toast.makeText(LoginActivity.this, "Error de seguridad al guardar los datos", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-                    //Toast.makeText(LoginActivity.this, "Email o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                    // Error en las credenciales o el servidor
                     idMessage.setText("Email o contraseña incorrectos!");
                     Log.e("LOGIN", "Código de error: " + response.code());
                 }

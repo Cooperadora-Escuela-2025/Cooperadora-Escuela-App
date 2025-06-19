@@ -2,6 +2,7 @@ package com.example.cooperadora_escuela.ui;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,23 +18,37 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKey;
 
+import com.example.cooperadora_escuela.AboutUsActivity;
+import com.example.cooperadora_escuela.HomeActivity;
+import com.example.cooperadora_escuela.ProductsActivity;
 import com.example.cooperadora_escuela.R;
+import com.example.cooperadora_escuela.WebActivity;
 import com.example.cooperadora_escuela.network.UserService;
 import com.example.cooperadora_escuela.network.auth.ApiUser;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +68,12 @@ public class CuotaActivity extends AppCompatActivity {
     private Button btnCrearCuota, btnDescargarPdf;
     private ImageView imageViewQR;
 
+    private TextView txtMonto;
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle toggle;
+
     private final List<String> tipos = Arrays.asList("mensual", "anual");
     private final List<String> meses = Arrays.asList(
             "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -64,12 +85,61 @@ public class CuotaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuota);
 
+        // Configurar toolbar y drawer layout
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        // Manejar selección del menú lateral
+        navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            // Aca se agregan navegación a las activities
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(CuotaActivity.this, HomeActivity.class));
+            } else if (id == R.id.nav_product) {
+                Intent intent = new Intent(CuotaActivity.this, ProductsActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_perfil) {
+                startActivity(new Intent(CuotaActivity.this, ProfileActivity.class));
+//            } else if (id == R.id.nav_accesibilidad) {
+//                Intent intent = new Intent(ContactActivity.this, AccessibilityActivity.class);
+//                startActivity(intent);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return true;
+            } else if (id == R.id.nav_contact) {
+            } else if (id == R.id.nav_about) {
+                startActivity(new Intent(CuotaActivity.this, AboutUsActivity.class));
+            } else if (id == R.id.nav_web) {
+                Intent intent = new Intent(CuotaActivity.this, WebActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_logout) {
+                //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
+                logoutUser(); // llamamos a salir
+                return true;
+            }
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+
         spinnerTipo = findViewById(R.id.spinnerTipo);
         spinnerMes = findViewById(R.id.spinnerMes);
         spinnerAnio = findViewById(R.id.spinnerAnio);
         btnCrearCuota = findViewById(R.id.btnCrearCuota);
         btnDescargarPdf = findViewById(R.id.btnDescargarPdf);
         imageViewQR = findViewById(R.id.imageViewQR);
+
+
 
         imageViewQR.setVisibility(View.GONE);
         btnDescargarPdf.setVisibility(View.GONE);
@@ -85,7 +155,7 @@ public class CuotaActivity extends AppCompatActivity {
         spinnerMes.setAdapter(mesAdapter);
 
         List<String> listaAnios = new ArrayList<>();
-        for (int anio = 2020; anio <= 2030; anio++) {
+        for (int anio = 2025; anio <= 2030; anio++) {
             listaAnios.add(String.valueOf(anio));
         }
         ArrayAdapter<String> anioAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaAnios);
@@ -276,6 +346,36 @@ public class CuotaActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(TAG, "Error guardando PDF", e);
             return false;
+        }
+    }
+
+    //cerrar sesion
+    private void logoutUser(){
+        try{
+            MasterKey masterKey=new MasterKey.Builder(this)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build();
+
+            SharedPreferences sharedPreferences= EncryptedSharedPreferences.create(
+                    this,
+                    "MyPrefs",
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear(); // borra todos los tokens
+            editor.apply();
+
+            // volver al login eliminando el historial
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            Toast.makeText(this, "Cerraste sesión con exito", Toast.LENGTH_SHORT).show();
+        }catch(GeneralSecurityException | IOException e){
+            e.printStackTrace();
+            Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -50,11 +50,23 @@ public class ActivitiesActivity extends AppCompatActivity {
         recyclerActividades.setLayoutManager(new LinearLayoutManager(this));
 
         listaActividades = new ArrayList<>();
-        listaActividades.add(new Activities("Feria de Ciencias", "Presentación de proyectos científicos"));
-        listaActividades.add(new Activities("Día del Estudiante", "Juegos y actividades recreativas para todos"));
-        listaActividades.add(new Activities("Obra de Teatro", "Función teatral a cargo de alumnos de 5to año"));
-        listaActividades.add(new Activities("Torneo de Fútbol", "Competencia deportiva entre cursos"));
-        listaActividades.add(new Activities("Excursión", "Salida educativa a un museo local"));
+        listaActividades.add(new Activities("🔬 Feria de Ciencias", "Presentación de proyectos científicos por los alumnos\n📅 15 de Septiembre\n📍 Auditorio principal"));
+        listaActividades.add(new Activities("🎉 Día del Estudiante", "Juegos y actividades recreativas para todos los cursos\n📅 21 de Septiembre\n📍 Patio central"));
+        listaActividades.add(new Activities("🎭 Obra de Teatro", "Función teatral a cargo de estudiantes de 5to año\n📅 10 de Octubre\n📍 Sala de actos"));
+        listaActividades.add(new Activities("⚽ Torneo de Fútbol", "Competencia deportiva entre cursos\n📅 5 de Noviembre\n📍 Cancha deportiva"));
+        listaActividades.add(new Activities("🚌 Excursión Escolar", "Salida educativa al museo local con docentes\n📅 20 de Noviembre\n📍 Museo de Ciencias Naturales"));
+        listaActividades.add(new Activities("📖 Taller de Lectura Familiar", "Actividad compartida entre padres, madres e hijos\n📅 30 de Septiembre\n📍 Biblioteca"));
+        listaActividades.add(new Activities("🖼️ Muestra de Arte", "Exposición de trabajos artísticos realizados en clases\n📅 12 de Octubre\n📍 Galería de Arte"));
+        listaActividades.add(new Activities("🍽️ Feria del Plato", "Venta de comidas caseras para recaudar fondos escolares\n📅 8 de Octubre\n📍 Patio de comidas"));
+        listaActividades.add(new Activities("🎤 Festival de Talentos", "Alumnos presentan habilidades: canto, baile y más\n📅 25 de Octubre\n📍 Auditorio principal"));
+        listaActividades.add(new Activities("🧼 Jornada de Limpieza", "Actividad colaborativa entre padres y alumnos para embellecer la escuela\n📅 3 de Octubre\n📍 Todo el colegio"));
+        listaActividades.add(new Activities("👪 Día de la Familia", "Juegos y actividades para disfrutar en comunidad\n📅 18 de Noviembre\n📍 Patio central"));
+        listaActividades.add(new Activities("☕ Mateada con la Cooperadora", "Encuentro informal con padres y directivos\n📅 28 de Septiembre\n📍 Sala de reuniones"));
+        listaActividades.add(new Activities("🧯 Taller de Primeros Auxilios", "Capacitación para padres, madres y docentes\n📅 22 de Octubre\n📍 Sala multimedia"));
+        listaActividades.add(new Activities("💻 Charla sobre Seguridad Digital", "Cómo cuidar a los chicos en internet\n📅 15 de Octubre\n📍 Aula tecnológica"));
+        listaActividades.add(new Activities("📚 Clase Abierta", "Los padres pueden asistir a una clase con sus hijos\n📅 5 de Octubre\n📍 Aulas respectivas"));
+
+
 
         adapter = new ActivitiesAdapter(listaActividades);
         recyclerActividades.setAdapter(adapter);

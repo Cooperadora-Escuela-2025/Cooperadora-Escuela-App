@@ -25,6 +25,7 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
 import com.example.cooperadora_escuela.AboutUsActivity;
+import com.example.cooperadora_escuela.CartActivity;
 import com.example.cooperadora_escuela.ContactActivity;
 import com.example.cooperadora_escuela.HomeActivity;
 import com.example.cooperadora_escuela.ProductsActivity;
@@ -159,6 +160,11 @@ public class ProfileActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_product) {
                     Intent intent = new Intent(ProfileActivity.this, ProductsActivity.class);
                     startActivity(intent);
+                } else if (id == R.id.action_cart) {
+                    Intent intent = new Intent(ProfileActivity.this, CartActivity.class);
+                    startActivity(intent);
+
+
                 } else if (id == R.id.nav_perfil) {
                     startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
 //                } else if (id == R.id.nav_accesibilidad) {
@@ -166,6 +172,8 @@ public class ProfileActivity extends AppCompatActivity {
 //                    startActivity(intent);
 //                    drawerLayout.closeDrawer(GravityCompat.START);
 //                    return true;
+                }else if (id == R.id.nav_history) {
+                    startActivity(new Intent(ProfileActivity.this, HistoryActivity.class));
                 } else if (id == R.id.nav_contact) {
                     Intent intent = new Intent(ProfileActivity.this, ContactActivity.class);
                     startActivity(intent);

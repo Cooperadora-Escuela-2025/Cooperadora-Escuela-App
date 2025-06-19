@@ -6,7 +6,6 @@ import com.example.cooperadora_escuela.network.auth.LoginResponse;
 import com.example.cooperadora_escuela.network.auth.RegisterRequest;
 import com.example.cooperadora_escuela.network.profile.ProfileRequest;
 import com.example.cooperadora_escuela.network.profile.ProfileResponse;
-import com.example.cooperadora_escuela.ui.Cuota;
 
 import java.util.List;
 

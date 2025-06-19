@@ -1,4 +1,4 @@
-package com.example.cooperadora_escuela.ui;
+package com.example.cooperadora_escuela.models;
 
 public class Cuota {
     public int id;

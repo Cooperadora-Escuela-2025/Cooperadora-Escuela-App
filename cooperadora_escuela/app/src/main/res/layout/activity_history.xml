@@ -23,7 +23,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@drawable/rectangular_gradient_background"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:title="Contacto" />
+                app:title="Historial de Compras" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <!-- contenido -->

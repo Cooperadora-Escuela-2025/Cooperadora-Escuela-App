@@ -15,6 +15,7 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
 import com.example.cooperadora_escuela.AboutUsActivity;
+import com.example.cooperadora_escuela.CartActivity;
 import com.example.cooperadora_escuela.ContactActivity;
 import com.example.cooperadora_escuela.HomeActivity;
 import com.example.cooperadora_escuela.ProductsActivity;
@@ -70,16 +71,27 @@ public class HistoryActivity extends AppCompatActivity {
         navView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
 
-            // Aca se agregan navegación a las activities
             if (id == R.id.nav_home) {
-                startActivity(new Intent(HistoryActivity.this, HomeActivity.class));
             } else if (id == R.id.nav_product) {
                 Intent intent = new Intent(HistoryActivity.this, ProductsActivity.class);
                 startActivity(intent);
-            } else if (id == R.id.nav_perfil) {
+            } else if (id == R.id.action_cart) {
+                Intent intent = new Intent(HistoryActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+            else if (id == R.id.nav_perfil) {
                 startActivity(new Intent(HistoryActivity.this, ProfileActivity.class));
-//
+            }else if (id == R.id.nav_history) {
+                startActivity(new Intent(HistoryActivity.this, HistoryActivity.class));
+
+//                } else if (id == R.id.nav_accesibilidad) {
+//                    Intent intent = new Intent(HomeActivity.this, AccessibilityActivity.class);
+//                    startActivity(intent);
+//                    drawerLayout.closeDrawer(GravityCompat.START);
+//                    return true;
             } else if (id == R.id.nav_contact) {
+                Intent intent = new Intent(HistoryActivity.this, ContactActivity.class);
+                startActivity(intent);
             } else if (id == R.id.nav_about) {
                 startActivity(new Intent(HistoryActivity.this, AboutUsActivity.class));
             } else if (id == R.id.nav_web) {
