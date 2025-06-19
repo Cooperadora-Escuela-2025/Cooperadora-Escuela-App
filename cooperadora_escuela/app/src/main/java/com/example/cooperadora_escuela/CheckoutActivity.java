@@ -97,6 +97,12 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
         String paymentMethod = getPaymentMethod(selectedId);
+
+        if (paymentMethod.equalsIgnoreCase("mercadopago")) {
+            showToast("Para pagar con Mercado Pago, dirígete a nuestra web");
+            return;
+        }
+
         double total = Cart.getInstance().getTotalPrice();
 
         Map<Product, Integer> cartProducts = Cart.getInstance().getProducts();
@@ -109,7 +115,9 @@ public class CheckoutActivity extends AppCompatActivity {
         // Crea los items de la orden para la API
         List<OrderItem> orderItems = new ArrayList<>();
         for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
-            orderItems.add(new OrderItem(entry.getKey().getName(), entry.getValue()));
+            Product product = entry.getKey();
+            int quantity = entry.getValue();
+            orderItems.add(new OrderItem(product.getId(), product.getPrice(), quantity));
         }
 
         // Crea la orden completa
@@ -117,6 +125,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 firstName,
                 lastName,
                 dni,
+                total,
                 paymentMethod,
                 orderItems
         );
@@ -160,11 +169,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private String getPaymentMethod(int selectedId) {
         if (selectedId == R.id.cashRadioButton) {
-            return "Efectivo";
+            return "efectivo";
         } else if (selectedId == R.id.mercadoPagoRadioButton) {
-            return "Mercado Pago";
+            return "mercadopago";
         }
-        return "Desconocido";
+        return "desconocido";
     }
 
     private void showToast(String message) {

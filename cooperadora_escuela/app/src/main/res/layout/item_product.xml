@@ -71,17 +71,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnEditProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Editar" />
 
             <Button
                 android:id="@+id/addToCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Agregar" />
+                android:text="Agregar al carrito" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

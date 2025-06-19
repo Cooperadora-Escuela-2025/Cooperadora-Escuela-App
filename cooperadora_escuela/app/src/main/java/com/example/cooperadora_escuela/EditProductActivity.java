@@ -32,7 +32,7 @@ public class EditProductActivity extends AppCompatActivity {
     private EditText etName;
     private EditText etPrice;
     private EditText etImageUrl;
-    private EditText etQuantity;         // Cambié stock por quantity
+    private EditText etQuantity;
     private Button btnDelete;
 
     private DrawerLayout drawerLayout;
@@ -84,13 +84,13 @@ public class EditProductActivity extends AppCompatActivity {
             return true;
         });
 
-        // 🧱 Inicializar vista
+        // Inicializar vista
         dbHelper = new DatabaseHelper(this);
 
         etName = findViewById(R.id.etProductName);
         etPrice = findViewById(R.id.etProductPrice);
         etImageUrl = findViewById(R.id.etProductImageUrl);
-        etQuantity = findViewById(R.id.etProductQuantity);  // Cambié stock por quantity
+        etQuantity = findViewById(R.id.etProductQuantity);
         btnDelete = findViewById(R.id.btnDeleteProduct);
 
         Button btnBack = findViewById(R.id.btnBack);

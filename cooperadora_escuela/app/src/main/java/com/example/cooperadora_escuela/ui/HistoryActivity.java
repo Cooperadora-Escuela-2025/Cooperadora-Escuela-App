@@ -72,6 +72,7 @@ public class HistoryActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.nav_home) {
+                startActivity(new Intent(HistoryActivity.this, HomeActivity.class));
             } else if (id == R.id.nav_product) {
                 Intent intent = new Intent(HistoryActivity.this, ProductsActivity.class);
                 startActivity(intent);

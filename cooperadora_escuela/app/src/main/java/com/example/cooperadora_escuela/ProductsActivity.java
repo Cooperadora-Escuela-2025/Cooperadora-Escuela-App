@@ -168,7 +168,6 @@ public class ProductsActivity extends AppCompatActivity {
             TextView nameView = itemView.findViewById(R.id.productName);
             TextView priceView = itemView.findViewById(R.id.productPrice);
             TextView quantityView = itemView.findViewById(R.id.productStock);
-            Button btnEdit = itemView.findViewById(R.id.btnEditProduct);
             Button btnAddToCart = itemView.findViewById(R.id.addToCart);
 
             nameView.setText(product.getName());
@@ -185,8 +184,6 @@ public class ProductsActivity extends AppCompatActivity {
                     .load(product.getImage())
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(imageView);
-
-            btnEdit.setOnClickListener(v -> launchEditProductActivity(product));
 
             btnAddToCart.setOnClickListener(v -> {
                 int quantityInCartInner = cart.getProductQuantity(product);
