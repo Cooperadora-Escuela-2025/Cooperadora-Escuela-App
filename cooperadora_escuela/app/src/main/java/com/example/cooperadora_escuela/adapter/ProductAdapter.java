@@ -1,12 +1,14 @@
 package com.example.cooperadora_escuela.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,10 +49,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Producto
     public void onBindViewHolder(@NonNull ProductoViewHolder holder, int position) {
         Product producto = productos.get(position);
 
+        Log.d("DEBUG_STOCK", "Producto: " + producto.getName() + " - Stock: " + producto.getQuantity());
+
+
         // Formatear precio en ARS
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
         holder.txtNombre.setText(producto.getName());
         holder.txtPrecio.setText(currencyFormat.format(producto.getPrice()));
+        holder.txtStock.setText("Stock: " + producto.getQuantity());
+
 
         // Manejar imagen
         String baseUrl = "http://10.0.2.2:8000";
@@ -75,8 +82,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Producto
         });
 
         holder.btnAddToCart.setOnClickListener(v -> {
-            if (listener != null) listener.onAddToCartClick(producto);
+            if (producto.getQuantity() > 0) {
+                if (listener != null) listener.onAddToCartClick(producto);
+                // Descontamos stock visualmente
+                producto.setQuantity(producto.getQuantity() - 1);
+                notifyItemChanged(position); // Se actualiza solo el item afectado
+            } else {
+                Toast.makeText(context, "No hay stock disponible para " + producto.getName(), Toast.LENGTH_SHORT).show();
+            }
         });
+
     }
 
     @Override
@@ -85,7 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Producto
     }
 
     public static class ProductoViewHolder extends RecyclerView.ViewHolder {
-        TextView txtNombre, txtPrecio;
+        TextView txtNombre, txtPrecio, txtStock;
         ImageView imgProducto;
         Button btnEdit, btnAddToCart;
 
@@ -94,6 +109,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Producto
             txtNombre = itemView.findViewById(R.id.productName);
             txtPrecio = itemView.findViewById(R.id.productPrice);
             imgProducto = itemView.findViewById(R.id.productImage);
+            txtStock = itemView.findViewById(R.id.productStock);
             btnEdit = itemView.findViewById(R.id.btnEditProduct);
             btnAddToCart = itemView.findViewById(R.id.addToCart);
         }

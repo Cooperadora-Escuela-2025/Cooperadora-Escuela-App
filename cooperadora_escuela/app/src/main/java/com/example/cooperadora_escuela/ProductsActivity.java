@@ -59,7 +59,6 @@ public class ProductsActivity extends AppCompatActivity {
 
     private TextView cartBadgeTextView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +81,10 @@ public class ProductsActivity extends AppCompatActivity {
         navView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
 
-            // Aca se agregan navegación a las activities
             if (id == R.id.nav_home) {
                 startActivity(new Intent(ProductsActivity.this, HomeActivity.class));
             } else if (id == R.id.nav_product) {
-                Intent intent = new Intent(ProductsActivity.this, ProductsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(ProductsActivity.this, ProductsActivity.class));
             } else if (id == R.id.nav_perfil) {
                 startActivity(new Intent(ProductsActivity.this, ProfileActivity.class));
 //            } else if (id == R.id.nav_accesibilidad) {
@@ -96,16 +93,13 @@ public class ProductsActivity extends AppCompatActivity {
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
             } else if (id == R.id.nav_contact) {
-                Intent intent = new Intent(ProductsActivity.this, ContactActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(ProductsActivity.this, ContactActivity.class));
             } else if (id == R.id.nav_about) {
                 startActivity(new Intent(ProductsActivity.this, AboutUsActivity.class));
             } else if (id == R.id.nav_web) {
-                Intent intent = new Intent(ProductsActivity.this, WebActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(ProductsActivity.this, WebActivity.class));
             } else if (id == R.id.nav_logout) {
-                //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
-                logoutUser(); // llamamos a salir
+                logoutUser();
                 return true;
             }
 
@@ -120,11 +114,23 @@ public class ProductsActivity extends AppCompatActivity {
         editProductLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        fetchProductsFromApi();
-                        Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        List<Product> updatedProducts = result.getData().getParcelableArrayListExtra("updatedProducts");
+
+                        if (updatedProducts != null) {
+                            for (Product updatedProduct : updatedProducts) {
+                                for (Product product : productList) {
+                                    if (product.getId() == updatedProduct.getId()) {
+                                        product.setQuantity(updatedProduct.getQuantity());
+                                        break;
+                                    }
+                                }
+                            }
+                            displayProductsDynamically();
+                        }
                     }
-                });
+                }
+        );
 
         fetchProductsFromApi();
     }
@@ -161,11 +167,19 @@ public class ProductsActivity extends AppCompatActivity {
             ImageView imageView = itemView.findViewById(R.id.productImage);
             TextView nameView = itemView.findViewById(R.id.productName);
             TextView priceView = itemView.findViewById(R.id.productPrice);
+            TextView quantityView = itemView.findViewById(R.id.productStock);
             Button btnEdit = itemView.findViewById(R.id.btnEditProduct);
             Button btnAddToCart = itemView.findViewById(R.id.addToCart);
 
             nameView.setText(product.getName());
             priceView.setText(currencyFormat.format(product.getPrice()));
+
+            // Se calcula stock disponible según cantidad en carrito
+            int quantityInCart = cart.getProductQuantity(product);
+            int stockDisponible = product.getQuantity() - quantityInCart;
+            if (stockDisponible < 0) stockDisponible = 0;
+
+            quantityView.setText("Stock: " + stockDisponible);
 
             Glide.with(this)
                     .load(product.getImage())
@@ -175,11 +189,19 @@ public class ProductsActivity extends AppCompatActivity {
             btnEdit.setOnClickListener(v -> launchEditProductActivity(product));
 
             btnAddToCart.setOnClickListener(v -> {
-                cart.addProduct(product);
-                Toast.makeText(this, product.getName() + " agregado al carrito", Toast.LENGTH_SHORT).show();
-                updateCartBadge(); // << actualiza el contador del ícono
-            });
+                int quantityInCartInner = cart.getProductQuantity(product);
+                int stockDisponibleInner = product.getQuantity() - quantityInCartInner;
+                if (stockDisponibleInner < 0) stockDisponibleInner = 0;
 
+                if (stockDisponibleInner > 0) {
+                    cart.addProduct(product);
+                    Toast.makeText(this, product.getName() + " agregado al carrito", Toast.LENGTH_SHORT).show();
+                    updateCartBadge();
+                    displayProductsDynamically();
+                } else {
+                    Toast.makeText(this, "No hay stock disponible para " + product.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
             productsContainer.addView(itemView);
         }
@@ -195,29 +217,26 @@ public class ProductsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.products_menu, menu);
 
-        // Obtener el ítem del menú con actionLayout
         MenuItem cartItem = menu.findItem(R.id.menu_view_cart);
         View actionView = cartItem.getActionView();
-
-        // Obtener el TextView del contador
         cartBadgeTextView = actionView.findViewById(R.id.cart_badge);
 
-        // Hacer clic en el ícono del carrito
         actionView.setOnClickListener(v -> {
             if (cart.getProducts().isEmpty()) {
                 Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(this, CartActivity.class);
+                editProductLauncher.launch(intent);
             }
-            startActivity(new Intent(this, CartActivity.class));
         });
 
-        // Actualizar contador
         updateCartBadge();
         return true;
     }
 
     private void updateCartBadge() {
         if (cartBadgeTextView != null) {
-            int count = cart.getTotalCount(); // Este método debe existir en tu clase Cart
+            int count = cart.getTotalCount();
             if (count == 0) {
                 cartBadgeTextView.setVisibility(View.GONE);
             } else {
@@ -226,7 +245,6 @@ public class ProductsActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -239,7 +257,8 @@ public class ProductsActivity extends AppCompatActivity {
             if (cart.getProducts().isEmpty()) {
                 Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show();
             } else {
-                startActivity(new Intent(this, CartActivity.class));
+                Intent intent = new Intent(this, CartActivity.class);
+                editProductLauncher.launch(intent);
             }
             return true;
         }
@@ -247,19 +266,18 @@ public class ProductsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void launchAddProductActivity() {
         Intent intent = new Intent(this, EditProductActivity.class);
         editProductLauncher.launch(intent);
     }
-    //cerrar sesion
-    private void logoutUser(){
-        try{
-            MasterKey masterKey=new MasterKey.Builder(this)
+
+    private void logoutUser() {
+        try {
+            MasterKey masterKey = new MasterKey.Builder(this)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build();
 
-            SharedPreferences sharedPreferences= EncryptedSharedPreferences.create(
+            SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
                     this,
                     "MyPrefs",
                     masterKey,
@@ -267,19 +285,20 @@ public class ProductsActivity extends AppCompatActivity {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear(); // borra todos los tokens
+            editor.clear();
             editor.apply();
 
-            // volver al login eliminando el historial
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-            Toast.makeText(this, "Cerraste sesión con exito", Toast.LENGTH_SHORT).show();
-        }catch(GeneralSecurityException | IOException e){
+
+            Toast.makeText(this, "Cerraste sesión con éxito", Toast.LENGTH_SHORT).show();
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
+
+

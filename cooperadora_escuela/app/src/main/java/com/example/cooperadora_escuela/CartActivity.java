@@ -25,9 +25,12 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class CartActivity extends AppCompatActivity implements Cart.CartListener, CartAdapter.OnItemClickListener {
@@ -37,12 +40,13 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
     private Cart cart;
     private DrawerLayout drawerLayout;
 
+    private HashMap<Product, Integer> initialCartState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        // Configurar Toolbar y Navigation Drawer
         drawerLayout = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,12 +63,10 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
 
-            // Aca se agregan navegación a las activities
             if (id == R.id.nav_home) {
                 startActivity(new Intent(CartActivity.this, HomeActivity.class));
             } else if (id == R.id.nav_product) {
-                Intent intent = new Intent(CartActivity.this, ProductsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(CartActivity.this, ProductsActivity.class));
             } else if (id == R.id.nav_perfil) {
                 startActivity(new Intent(CartActivity.this, ProfileActivity.class));
 //            } else if (id == R.id.nav_accesibilidad) {
@@ -73,16 +75,13 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
             } else if (id == R.id.nav_contact) {
-                Intent intent = new Intent(CartActivity.this, ContactActivity.class);
-                startActivity(intent);
-            }else if (id == R.id.nav_about) {
+                startActivity(new Intent(CartActivity.this, ContactActivity.class));
+            } else if (id == R.id.nav_about) {
                 startActivity(new Intent(CartActivity.this, AboutUsActivity.class));
             } else if (id == R.id.nav_web) {
-                Intent intent = new Intent(CartActivity.this, WebActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(CartActivity.this, WebActivity.class));
             } else if (id == R.id.nav_logout) {
-                //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
-                logoutUser(); // llamamos a salir
+                logoutUser();
                 return true;
             }
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -92,6 +91,9 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
         cart = Cart.getInstance();
         cart.setListener(this);
 
+        // Guardar estado original del carrito
+        initialCartState = new HashMap<>(cart.getProductMap());
+
         setupRecyclerView();
         setupButtons();
 
@@ -99,14 +101,13 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
         updateTotalPrice();
     }
 
-    //cerrar sesion
-    private void logoutUser(){
-        try{
-            MasterKey masterKey=new MasterKey.Builder(this)
+    private void logoutUser() {
+        try {
+            MasterKey masterKey = new MasterKey.Builder(this)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build();
 
-            SharedPreferences sharedPreferences= EncryptedSharedPreferences.create(
+            SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
                     this,
                     "MyPrefs",
                     masterKey,
@@ -114,16 +115,16 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear(); // borra todos los tokens
+            editor.clear();
             editor.apply();
 
-            // volver al login eliminando el historial
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-            Toast.makeText(this, "Cerraste sesión con exito", Toast.LENGTH_SHORT).show();
-        }catch(GeneralSecurityException | IOException e){
+
+            Toast.makeText(this, "Cerraste sesión con éxito", Toast.LENGTH_SHORT).show();
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show();
         }
@@ -132,7 +133,7 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
     private void setupRecyclerView() {
         RecyclerView cartRecyclerView = findViewById(R.id.cartRecyclerView);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        cartAdapter = new CartAdapter(cart.getProducts());
+        cartAdapter = new CartAdapter(new ArrayList<>(cart.getProductMap().keySet()));
         cartAdapter.setOnItemClickListener(this);
         cartRecyclerView.setAdapter(cartAdapter);
     }
@@ -140,7 +141,7 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
     private void setupButtons() {
         MaterialButton checkoutButton = findViewById(R.id.checkoutButton);
         checkoutButton.setOnClickListener(v -> {
-            if (cart.getProducts().isEmpty()) {
+            if (cart.getProductMap().isEmpty()) {
                 Toast.makeText(this, getString(R.string.empty_cart_message), Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(this, CheckoutActivity.class));
@@ -148,7 +149,11 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
         });
 
         MaterialButton backToProductsButton = findViewById(R.id.backToProductsButton);
-        backToProductsButton.setOnClickListener(v -> finish());
+        backToProductsButton.setOnClickListener(v -> {
+            restoreAllStocks();
+            sendCartBack();
+            finish();
+        });
     }
 
     @Override
@@ -158,7 +163,7 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
     }
 
     private void refreshCartData() {
-        cartAdapter.updateProducts(cart.getProducts());
+        cartAdapter.updateProducts(new ArrayList<>(cart.getProductMap().keySet()));
         updateTotalPrice();
     }
 
@@ -172,14 +177,14 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
     }
 
     @Override
-    public void onProductAdded(Product product, int position) {
-        cartAdapter.addProduct(product);
+    public void onProductAdded(Product product) {
+        cartAdapter.updateProducts(new ArrayList<>(cart.getProductMap().keySet()));
         updateTotalPrice();
     }
 
     @Override
-    public void onProductRemoved(Product product, int position) {
-        cartAdapter.removeProduct(product);
+    public void onProductRemoved(Product product) {
+        cartAdapter.updateProducts(new ArrayList<>(cart.getProductMap().keySet()));
         updateTotalPrice();
     }
 
@@ -190,9 +195,38 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
     }
 
     @Override
+    public void onOutOfStock(Product product) {
+        Toast.makeText(this, product.getName() + " sin stock disponible", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onRemoveClick(Product product) {
+        // Remover una unidad del producto del carrito
         cart.removeProduct(product);
-        Toast.makeText(this, product.getName() + " eliminado del carrito", Toast.LENGTH_SHORT).show();
+
+        // Obtener la cantidad que queda en el carrito después de remover
+        int quantityInCartAfter = cart.getProductQuantity(product);
+
+        Toast.makeText(this, product.getName() + " eliminado del carrito. Quedan " + quantityInCartAfter + " unidades en el carrito", Toast.LENGTH_SHORT).show();
+
+        // Devolver 1 unidad al stock
+        product.setQuantity(product.getQuantity() + 1);
+
+        // Refrescar la UI del carrito
+        refreshCartData();
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            restoreAllStocks();
+            sendCartBack();
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -202,12 +236,20 @@ public class CartActivity extends AppCompatActivity implements Cart.CartListener
         cartAdapter.setOnItemClickListener(null);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+    private void restoreAllStocks() {
+        for (Product product : initialCartState.keySet()) {
+            int initialQuantity = initialCartState.get(product);
+            int currentQuantity = cart.getProductMap().getOrDefault(product, 0);
+            int difference = initialQuantity - currentQuantity;
+            product.setQuantity(product.getQuantity() + difference);
         }
     }
+
+    private void sendCartBack() {
+        Intent intent = new Intent();
+        ArrayList<Product> updatedProducts = new ArrayList<>(cart.getProductMap().keySet());
+        intent.putParcelableArrayListExtra("updatedProducts", updatedProducts);
+        setResult(RESULT_OK, intent);
+    }
 }
+

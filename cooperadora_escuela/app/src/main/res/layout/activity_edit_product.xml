@@ -60,6 +60,14 @@
                     android:inputType="textUri"
                     android:layout_marginTop="12dp"/>
 
+                <EditText
+                    android:id="@+id/etProductQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Cantidad"
+                    android:inputType="number"
+                    android:layout_marginTop="12dp"/>
+
                 <Button
                     android:id="@+id/btnSaveProduct"
                     android:layout_width="match_parent"

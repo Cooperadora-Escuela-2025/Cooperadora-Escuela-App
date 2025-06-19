@@ -3,12 +3,10 @@ package com.example.cooperadora_escuela;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,6 +32,7 @@ public class EditProductActivity extends AppCompatActivity {
     private EditText etName;
     private EditText etPrice;
     private EditText etImageUrl;
+    private EditText etQuantity;         // Cambié stock por quantity
     private Button btnDelete;
 
     private DrawerLayout drawerLayout;
@@ -60,12 +59,10 @@ public class EditProductActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
 
-            // Aca se agregan navegación a las activities
             if (id == R.id.nav_home) {
                 startActivity(new Intent(EditProductActivity.this, HomeActivity.class));
             } else if (id == R.id.nav_product) {
-                Intent intent = new Intent(EditProductActivity.this, ProductsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(EditProductActivity.this, ProductsActivity.class));
             } else if (id == R.id.nav_perfil) {
                 startActivity(new Intent(EditProductActivity.this, ProfileActivity.class));
 //            } else if (id == R.id.nav_accesibilidad) {
@@ -74,24 +71,18 @@ public class EditProductActivity extends AppCompatActivity {
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
             } else if (id == R.id.nav_contact) {
-                Intent intent = new Intent(EditProductActivity.this, ContactActivity.class);
-                startActivity(intent);
-            }else if (id == R.id.nav_about) {
+                startActivity(new Intent(EditProductActivity.this, ContactActivity.class));
+            } else if (id == R.id.nav_about) {
                 startActivity(new Intent(EditProductActivity.this, AboutUsActivity.class));
             } else if (id == R.id.nav_web) {
-                Intent intent = new Intent(EditProductActivity.this, WebActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(EditProductActivity.this, WebActivity.class));
             } else if (id == R.id.nav_logout) {
-                //Toast.makeText(DashboardActivity.this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
-                logoutUser(); // llamamos a salir
+                logoutUser();
                 return true;
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
-
-
-
 
         // 🧱 Inicializar vista
         dbHelper = new DatabaseHelper(this);
@@ -99,19 +90,21 @@ public class EditProductActivity extends AppCompatActivity {
         etName = findViewById(R.id.etProductName);
         etPrice = findViewById(R.id.etProductPrice);
         etImageUrl = findViewById(R.id.etProductImageUrl);
+        etQuantity = findViewById(R.id.etProductQuantity);  // Cambié stock por quantity
         btnDelete = findViewById(R.id.btnDeleteProduct);
 
         Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        // 🧾 Obtener datos del intent
+        // Obtener datos del intent (si vienen)
         int productId = getIntent().getIntExtra("product_id", -1);
         String name = getIntent().getStringExtra("product_name");
         double price = getIntent().getDoubleExtra("product_price", -1);
         String image = getIntent().getStringExtra("product_image");
+        int quantity = getIntent().getIntExtra("product_quantity", 0); // Cambié stock por quantity
 
         if (productId != -1 && name != null && price >= 0 && image != null) {
-            product = new Product(productId, name, price, image);
+            product = new Product(productId, name, price, image, quantity);
             fillFields(product);
             btnDelete.setVisibility(Button.VISIBLE);
         } else {
@@ -122,14 +115,14 @@ public class EditProductActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(v -> deleteProduct());
     }
 
-    //cerrar sesion
-    private void logoutUser(){
-        try{
-            MasterKey masterKey=new MasterKey.Builder(this)
+    // Cerrar sesión
+    private void logoutUser() {
+        try {
+            MasterKey masterKey = new MasterKey.Builder(this)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build();
 
-            SharedPreferences sharedPreferences= EncryptedSharedPreferences.create(
+            SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
                     this,
                     "MyPrefs",
                     masterKey,
@@ -137,16 +130,15 @@ public class EditProductActivity extends AppCompatActivity {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear(); // borra todos los tokens
+            editor.clear();
             editor.apply();
 
-            // volver al login eliminando el historial
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-            Toast.makeText(this, "Cerraste sesión con exito", Toast.LENGTH_SHORT).show();
-        }catch(GeneralSecurityException | IOException e){
+            Toast.makeText(this, "Cerraste sesión con éxito", Toast.LENGTH_SHORT).show();
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show();
         }
@@ -156,19 +148,22 @@ public class EditProductActivity extends AppCompatActivity {
         etName.setText(product.getName());
         etPrice.setText(String.valueOf(product.getPrice()));
         etImageUrl.setText(product.getImage());
+        etQuantity.setText(String.valueOf(product.getQuantity()));  // Cambié stock por quantity
     }
 
     private void saveProduct() {
         String name = etName.getText().toString().trim();
         String priceStr = etPrice.getText().toString().trim();
         String imageUrl = etImageUrl.getText().toString().trim();
+        String quantityStr = etQuantity.getText().toString().trim();  // Cambié stock por quantity
 
-        if (name.isEmpty() || priceStr.isEmpty() || imageUrl.isEmpty()) {
+        if (name.isEmpty() || priceStr.isEmpty() || imageUrl.isEmpty() || quantityStr.isEmpty()) {
             showError("Complete todos los campos");
             return;
         }
 
         double price;
+        int quantity;
         try {
             price = Double.parseDouble(priceStr);
             if (price < 0) {
@@ -180,8 +175,19 @@ public class EditProductActivity extends AppCompatActivity {
             return;
         }
 
+        try {
+            quantity = Integer.parseInt(quantityStr);
+            if (quantity < 0) {
+                showError("La cantidad no puede ser negativa");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showError("Ingrese una cantidad válida");
+            return;
+        }
+
         if (product == null) {
-            Product newProduct = new Product(name, price, imageUrl);
+            Product newProduct = new Product(name, price, imageUrl, quantity);
             long result = dbHelper.addProduct(newProduct);
             if (result != -1) {
                 showSuccess("Producto creado exitosamente");
@@ -189,7 +195,7 @@ public class EditProductActivity extends AppCompatActivity {
                 showError("Error al crear el producto");
             }
         } else {
-            Product updatedProduct = new Product(product.getId(), name, price, imageUrl);
+            Product updatedProduct = new Product(product.getId(), name, price, imageUrl, quantity);
             int rows = dbHelper.updateProduct(updatedProduct);
             if (rows > 0) {
                 showSuccess("Producto actualizado exitosamente");
